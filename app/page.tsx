@@ -6,6 +6,7 @@ import {
   GiftBanner,
   Process,
   Reviews,
+  StoryTeaser,
   TrustBar,
   WhyUs,
 } from "components/home/sections";
@@ -26,7 +27,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero products={bestsellers} />
+      <Hero />
       <TrustBar />
       <Bestsellers products={bestsellers.slice(0, 6)} />
       <BoxTeaser products={bestsellers.slice(1, 6)} />
@@ -34,6 +35,7 @@ export default async function HomePage() {
       <Categories tiles={tiles} />
       <GiftBanner product={bundles.find((p) => p.availableForSale) ?? bundles[0]} />
       <Process />
+      <StoryTeaser />
       <Reviews />
     </>
   );

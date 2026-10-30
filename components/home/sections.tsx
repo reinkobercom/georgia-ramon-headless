@@ -17,6 +17,7 @@ import {
 } from "components/icons/brand";
 import { ProductCard } from "components/product-card";
 import { BOX } from "lib/box";
+import { brandImages } from "lib/brand-images";
 import type { CategoryTile } from "lib/catalog";
 import { formatPrice } from "lib/format";
 import type { Product } from "lib/shopify/types";
@@ -26,7 +27,7 @@ import Link from "next/link";
 export function TrustBar() {
   const items = [
     { Icon: TruckIcon, title: "Kostenloser Versand", text: "ab 39 € Bestellwert" },
-    { Icon: LeafIcon, title: "Klimaneutraler Versand", text: "mit DHL GoGreen" },
+    { Icon: LeafIcon, title: "Temperaturgeschützt", text: "Versand nur unter 24 °C" },
     { Icon: LockIcon, title: "Sichere Bezahlung", text: "SSL-verschlüsselt" },
     { Icon: HeartIcon, title: "Handwerkliche Herstellung", text: "in kleinen Chargen" },
   ];
@@ -150,12 +151,12 @@ export function BoxTeaser({ products }: { products: Product[] }) {
 
 export function WhyUs() {
   const items = [
-    { Icon: LeafIcon, title: "Bio & Fair", text: "Bio-zertifizierte Zutaten & fair bezogener Kakao" },
+    { Icon: LeafIcon, title: "Bio & Fair", text: "Bio-zertifizierte Kakaobohnen & Kakaobutter" },
     { Icon: BeanIcon, title: "Bean-to-Bar", text: "Wir machen alles selbst – von der Bohne bis zur Tafel" },
     { Icon: PinIcon, title: "Made in Soest", text: "Handwerklich hergestellt in unserer Manufaktur" },
-    { Icon: MagnifierIcon, title: "Transparent", text: "Direkte Beziehungen & nachvollziehbare Herkunft" },
-    { Icon: StarIcon, title: "Ausgezeichnet", text: "Mehrfach international prämiert" },
-    { Icon: GlobeIcon, title: "Nachhaltig", text: "Für Mensch & Natur – heute & morgen" },
+    { Icon: MagnifierIcon, title: "Transparent", text: "Wir kennen unsere Lieferketten – direkt oder über Händler unseres Vertrauens" },
+    { Icon: StarIcon, title: "Ausgezeichnet", text: "Academy of Chocolate & International Chocolate Awards" },
+    { Icon: GlobeIcon, title: "Gegen Kinderarbeit", text: "Fairer Handel oder Direktbezug beim Produzenten" },
   ];
   return (
     <section className="border-y border-cream-300 bg-cream-100/60 py-14 md:py-20">
@@ -259,8 +260,8 @@ export function GiftBanner({ product }: { product?: Product }) {
 
 export function Process() {
   const steps = [
-    { Icon: BeanIcon, title: "Auswahl", text: "Wir wählen die besten Kakaobohnen aus." },
-    { Icon: FlameIcon, title: "Rösten", text: "Schonendes Rösten für feinste Aromen." },
+    { Icon: BeanIcon, title: "Verlesen", text: "Jede Kakaobohne wird von Hand verlesen." },
+    { Icon: FlameIcon, title: "Hell rösten", text: "Hell geröstet, damit der Ursprung schmeckbar bleibt." },
     { Icon: BarIcon, title: "Brechen", text: "Die Bohnen werden geschält & gebrochen." },
     { Icon: MillIcon, title: "Mahlen", text: "Fein vermahlen zu einer zarten Masse." },
     { Icon: WaveIcon, title: "Conchieren", text: "Lange veredelt für Geschmack & Textur." },
@@ -274,6 +275,19 @@ export function Process() {
             Von der Bohne bis zur Tafel
           </h2>
           <p className="mt-2 text-sm text-cream-300">Mitten in Soest – in unserer eigenen Manufaktur.</p>
+        </div>
+        <div className="mb-12 grid grid-cols-3 gap-2 sm:gap-4">
+          {[brandImages.phillipWork, brandImages.craft, brandImages.molds].map((src, i) => (
+            <div key={src} className="relative aspect-[4/5] overflow-hidden rounded-sm bg-cocoa-800 sm:aspect-[4/3]">
+              <Image
+                src={src}
+                alt={["Schokolade wird von Hand gefertigt", "Handarbeit in der Manufaktur", "Schokoladenformen"][i]!}
+                fill
+                sizes="33vw"
+                className="object-cover"
+              />
+            </div>
+          ))}
         </div>
         <ol className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
           {steps.map(({ Icon, title, text }, i) => (
@@ -335,6 +349,38 @@ export function BoxStrip() {
         <Link href="/probierbox" className="btn-gold sm:ml-auto">
           Box zusammenstellen
         </Link>
+      </div>
+    </section>
+  );
+}
+
+export function StoryTeaser() {
+  return (
+    <section className="container-shop py-14 md:py-20">
+      <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-cream-100">
+          <Image
+            src={brandImages.company}
+            alt="Georgia Ramon Manufaktur"
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover"
+          />
+        </div>
+        <div>
+          <p className="eyebrow text-gold-600">Unsere Geschichte</p>
+          <h2 className="mt-3 font-serif text-3xl leading-tight sm:text-4xl">
+            Seit 2015 mit Leidenschaft für Craft Chocolate.
+          </h2>
+          <p className="mt-5 text-[15px] leading-relaxed text-cocoa-700">
+            Gegründet in Bonn, mehrfach ausgezeichnet und heute in Soest zu Hause: Georgia Ramon ist
+            ein kleines Team mit einem großen Anspruch. Wir erzählen dir, wer wir sind – und warum
+            wir Schokolade von der ganzen Kakaobohne an selbst machen.
+          </p>
+          <Link href="/ueber-uns" className="btn-dark mt-7">
+            Lerne uns kennen
+          </Link>
+        </div>
       </div>
     </section>
   );

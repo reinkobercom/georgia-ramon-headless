@@ -1,5 +1,5 @@
 import { BeanIcon, LeafIcon, HandshakeIcon, PinIcon } from "components/icons/brand";
-import type { Product } from "lib/shopify/types";
+import { brandImages } from "lib/brand-images";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,17 +10,23 @@ const values = [
   { label: "Made in Soest", Icon: PinIcon },
 ];
 
-export function Hero({ products }: { products: Product[] }) {
-  const shots = products.filter((p) => p.featuredImage).slice(0, 3);
+export function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-cocoa-950 text-cream-50">
-      {/* Warmer Lichtschein statt Foto – wird durch eure Hero-Fotografie ersetzt */}
+      <Image
+        src={brandImages.hero}
+        alt="Schokolade von Georgia Ramon"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_75%_40%,rgba(196,154,69,0.28),transparent_55%),radial-gradient(ellipse_at_10%_90%,rgba(110,60,35,0.45),transparent_60%)]"
+        className="absolute inset-0 bg-gradient-to-r from-cocoa-950/95 via-cocoa-950/75 to-cocoa-950/20"
       />
-      <div className="container-shop relative grid items-center gap-10 py-14 md:py-20 lg:grid-cols-2 lg:py-24">
+      <div className="container-shop relative grid min-h-[560px] items-center gap-10 py-14 md:min-h-[620px] md:py-20 lg:grid-cols-2 lg:py-24">
         <div className="max-w-xl">
           <h1 className="font-serif text-[2.4rem] leading-[1.08] sm:text-5xl lg:text-[3.6rem]">
             Außergewöhnliche
@@ -41,51 +47,30 @@ export function Hero({ products }: { products: Product[] }) {
           </ul>
 
           <p className="mt-8 max-w-md text-[15px] leading-relaxed text-cream-200">
-            Wir verarbeiten den Kakao selbst – von der Bohne bis zur Tafel. Für
-            unvergleichlichen Geschmack und höchste Qualität.
+            Unser Anspruch: die beste Schokolade herzustellen. Deshalb verarbeiten wir ganze
+            Kakaobohnen selbst – handverlesen, hell geröstet, von der Bohne bis zur Tafel.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link href="/search" className="btn-gold">
               Schokolade entdecken
             </Link>
-            <Link href="/#herstellung" className="btn-outline-light">
+            <Link href="/ueber-uns" className="btn-outline-light">
               Unsere Story
             </Link>
           </div>
         </div>
 
-        <div className="relative mx-auto aspect-square w-full max-w-[520px]">
-          {shots.map((p, i) => (
-            <div
-              key={p.handle}
-              className={[
-                "absolute aspect-square w-[52%] overflow-hidden rounded-sm border border-cream-50/10 shadow-[0_30px_50px_rgba(0,0,0,0.6)]",
-                i === 0 && "top-[4%] left-[24%] z-20 rotate-[-3deg]",
-                i === 1 && "top-[30%] left-0 z-10 rotate-[-10deg]",
-                i === 2 && "top-[34%] right-0 z-10 rotate-[8deg]",
-              ]
-                .filter(Boolean)
-                .join(" ")}
-            >
-              <Image
-                src={p.featuredImage.url}
-                alt={p.featuredImage.altText || p.title}
-                fill
-                priority
-                sizes="(min-width: 1024px) 280px, 50vw"
-                className="object-cover"
-              />
-            </div>
-          ))}
-          <div className="absolute right-0 bottom-[4%] z-30 flex h-28 w-28 flex-col items-center justify-center rounded-full border border-gold-500/80 bg-cocoa-950/90 text-center sm:h-32 sm:w-32">
+        <div className="hidden justify-end self-end lg:flex">
+          <div className="flex h-36 w-36 flex-col items-center justify-center rounded-full border border-gold-500/80 bg-cocoa-950/85 text-center backdrop-blur-sm">
             <span className="text-gold-400">★</span>
-            <span className="px-3 text-[9px] leading-tight font-semibold tracking-[0.14em] uppercase">
-              International
+            <span className="px-4 text-[9px] leading-snug font-semibold tracking-[0.14em] uppercase">
+              Ausgezeichnet
               <br />
-              <span className="text-gold-400">award winning</span>
+              <span className="text-gold-400">Academy of Chocolate</span>
+              <br />& International
               <br />
-              Chocolate
+              Chocolate Awards
             </span>
             <span className="text-gold-400">★</span>
           </div>

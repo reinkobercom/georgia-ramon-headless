@@ -16,7 +16,7 @@ export const mainNav: NavItem[] = [
   { title: "Probierbox", path: "/probierbox" },
   { title: "Geschenke", path: "/search/bundles" },
   { title: "Limited Editions", path: "/search/limited-edition" },
-  { title: "Über uns", path: "/#herstellung" },
+  { title: "Über uns", path: "/ueber-uns" },
 ];
 
 export const uspItems = [
