@@ -2,7 +2,8 @@
 
 import { CheckIcon, MinusIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { BoxIcon, LockIcon } from "components/icons/brand";
+import { BoxIcon, LockIcon, VeganIcon } from "components/icons/brand";
+import { VeganBadge } from "components/product-card";
 import { BOX } from "lib/box";
 import type { BoxFilter } from "lib/catalog";
 import { formatPrice } from "lib/format";
@@ -18,6 +19,7 @@ export type BoxProduct = {
   price: number;
   variantId: string;
   available: boolean;
+  vegan: boolean;
 };
 
 type Sort = "popular" | "price-asc" | "price-desc" | "name";
@@ -128,6 +130,7 @@ export function BoxBuilder({
               </Chip>
               {filters.map((f) => (
                 <Chip key={f.key} active={filter === f.key} onClick={() => setFilter(f.key)}>
+                  {f.key === "vegan" ? <VeganIcon className="-my-1 mr-1 inline h-4 w-4" /> : null}
                   {f.label}
                 </Chip>
               ))}
@@ -345,6 +348,7 @@ function BarCard({
             {qty}× gewählt
           </span>
         ) : null}
+        {product.vegan ? <VeganBadge className="absolute bottom-2 left-2 z-10 scale-90 origin-bottom-left" /> : null}
         {product.image ? (
           <Image
             src={product.image}

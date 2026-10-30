@@ -38,6 +38,12 @@ export function productBadge(product: Product): string | null {
   const tags = product.tags.map((t) => t.toLowerCase());
   if (tags.some((t) => t.includes("neu"))) return "Neu";
   if (tags.some((t) => t.includes("limited"))) return "Limited";
-  if (tags.some((t) => t.includes("vegan"))) return "Vegan";
   return null;
+}
+
+export function isVegan(product: Pick<Product, "tags" | "title">) {
+  return (
+    product.tags.some((t) => t.toLowerCase().includes("vegan")) ||
+    product.title.toLowerCase().includes("vegan")
+  );
 }

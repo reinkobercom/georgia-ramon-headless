@@ -2,7 +2,7 @@ import { BoxBuilder, type BoxProduct } from "components/box/box-builder";
 import { BoxIcon, HeartIcon, LeafIcon, PinIcon, StarIcon } from "components/icons/brand";
 import { BOX } from "lib/box";
 import { getBoxCatalog } from "lib/catalog";
-import { formatPrice } from "lib/format";
+import { formatPrice, isVegan } from "lib/format";
 
 export const metadata = {
   title: "Probierbox zusammenstellen",
@@ -20,6 +20,7 @@ export default async function ProbierboxPage() {
     price: parseFloat(p.priceRange.minVariantPrice.amount),
     variantId: p.variants[0]?.id ?? "",
     available: p.availableForSale,
+    vegan: isVegan(p),
   }));
 
   return (

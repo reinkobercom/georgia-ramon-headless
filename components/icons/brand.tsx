@@ -121,3 +121,26 @@ export const BarIcon = (p: P) => (
     <path d="M7 12h18M7 20h18M16 4v24" />
   </svg>
 );
+
+// Vegan: zwei grüne Blätter, die sich vom Stiel aus auffächern (farbig, nicht currentColor).
+export const VeganIcon = (p: P) => (
+  <svg viewBox="0 0 32 32" fill="none" aria-hidden {...p}>
+    <path d="M16 28c0-6 .5-10 0-14" stroke="#3f6b2a" strokeWidth="1.8" strokeLinecap="round" />
+    <path
+      d="M15.6 17.5C9.5 18.4 5 14.6 4 6.5c7.4-.4 12 3.5 11.6 11Z"
+      fill="#6a9f3e"
+      stroke="#3f6b2a"
+      strokeWidth="1.2"
+      strokeLinejoin="round"
+    />
+    <path d="M15.4 17.2C12.4 13.9 9.4 10.8 6.5 8.4" stroke="#3f6b2a" strokeWidth="1" strokeLinecap="round" />
+    <path
+      d="M16.4 14.5C22.5 15.4 27 11.6 28 3.5c-7.4-.4-12 3.5-11.6 11Z"
+      fill="#8bbf55"
+      stroke="#3f6b2a"
+      strokeWidth="1.2"
+      strokeLinejoin="round"
+    />
+    <path d="M16.6 14.2c3-3.3 6-6.4 8.9-8.8" stroke="#3f6b2a" strokeWidth="1" strokeLinecap="round" />
+  </svg>
+);

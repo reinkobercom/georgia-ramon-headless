@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { compareAtPrice, formatPrice, productBadge } from "lib/format";
+import { VeganIcon } from "components/icons/brand";
+import { compareAtPrice, formatPrice, isVegan, productBadge } from "lib/format";
 import type { Product } from "lib/shopify/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,6 +18,7 @@ export function ProductCard({
 }) {
   const label = badge ?? productBadge(product);
   const compare = compareAtPrice(product);
+  const vegan = isVegan(product);
   const price = product.priceRange.minVariantPrice;
   const hasRange =
     product.priceRange.minVariantPrice.amount !== product.priceRange.maxVariantPrice.amount;
@@ -28,11 +30,12 @@ export function ProductCard({
       className={clsx("group flex flex-col", className)}
     >
       <div className="relative aspect-square overflow-hidden rounded-sm bg-cream-100">
-        {label ? (
+        {label && label !== "Vegan" ? (
           <span className="absolute top-3 left-3 z-10 rounded-sm bg-cocoa-950 px-2 py-1 text-[10px] font-semibold tracking-[0.12em] text-cream-50 uppercase">
             {label}
           </span>
         ) : null}
+        {vegan ? <VeganBadge className="absolute bottom-3 left-3 z-10" /> : null}
         {!product.availableForSale ? (
           <span className="absolute top-3 right-3 z-10 rounded-sm bg-cream-50 px-2 py-1 text-[10px] font-semibold tracking-[0.12em] text-cocoa-700 uppercase">
             Ausverkauft
@@ -67,5 +70,20 @@ export function ProductCard({
         </p>
       </div>
     </Link>
+  );
+}
+
+export function VeganBadge({ className }: { className?: string }) {
+  return (
+    <span
+      className={clsx(
+        "inline-flex items-center gap-1 rounded-full bg-white/95 py-0.5 pr-2.5 pl-1 text-[10px] font-semibold tracking-[0.08em] text-[#3f6b2a] uppercase shadow-sm",
+        className,
+      )}
+      title="Vegan"
+    >
+      <VeganIcon className="h-5 w-5" />
+      Vegan
+    </span>
   );
 }

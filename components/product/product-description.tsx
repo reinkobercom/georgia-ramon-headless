@@ -1,7 +1,8 @@
 import { AddToCart } from "components/cart/add-to-cart";
 import { LeafIcon, PinIcon, TruckIcon } from "components/icons/brand";
 import Prose from "components/prose";
-import { compareAtPrice, formatPrice, unitPriceLabel } from "lib/format";
+import { VeganBadge } from "components/product-card";
+import { compareAtPrice, formatPrice, isVegan, unitPriceLabel } from "lib/format";
 import { Product } from "lib/shopify/types";
 import { VariantSelector } from "./variant-selector";
 
@@ -20,6 +21,7 @@ export function ProductDescription({ product }: { product: Product }) {
         <h1 className="font-serif text-3xl leading-tight sm:text-4xl lg:text-[2.7rem]">
           {product.title}
         </h1>
+        {isVegan(product) ? <VeganBadge className="mt-3 border border-[#cfe0bd]" /> : null}
         <div className="mt-4 flex items-baseline gap-3">
           <p className="text-2xl font-semibold">
             {hasRange ? "ab " : ""}
