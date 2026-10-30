@@ -89,8 +89,8 @@ export function BoxBuilder({
   return (
     <div className="container-shop">
       {/* Schritt 1: Box-Konditionen (aktuell nur die 10er-Box) */}
-      <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
-        <div>
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="min-w-0">
           <div className="relative flex flex-col gap-5 rounded-sm border-2 border-gold-500 bg-white/60 p-6 sm:flex-row sm:items-center sm:p-8">
             <span className="absolute -top-3 left-6 rounded-sm bg-gold-500 px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-cocoa-950 uppercase">
               Probierbox
