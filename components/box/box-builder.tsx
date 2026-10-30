@@ -211,7 +211,7 @@ export function BoxBuilder({
 
         {/* Desktop: mitlaufende Box */}
         <aside className="hidden lg:block">
-          <div className="sticky top-28 rounded-sm border border-cream-300 bg-white p-6 shadow-sm">
+          <div className="sticky top-28 flex max-h-[calc(100vh-8rem)] flex-col rounded-sm border border-cream-300 bg-white p-5 shadow-sm xl:p-6">
             {summary}
           </div>
         </aside>
@@ -281,7 +281,7 @@ function SummaryContent({
 }) {
   const complete = remaining === 0;
   return (
-    <div>
+    <div className="flex min-h-0 flex-1 flex-col">
       <p className="flex items-center gap-2 eyebrow">
         <BoxIcon className="h-5 w-5" />
         Deine {box.label}
@@ -302,12 +302,12 @@ function SummaryContent({
       </p>
 
       {items.length ? (
-        <ul className="mt-4 divide-y divide-cream-200 border-y border-cream-200">
+        <ul className="mt-4 min-h-0 flex-1 divide-y divide-cream-200 overflow-y-auto overscroll-contain border-y border-cream-200 pr-1">
           {items.map(({ product, qty }) => (
-            <li key={product.handle} className="flex items-center gap-3 py-3">
-              <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-sm bg-cream-100">
+            <li key={product.handle} className="flex items-center gap-3 py-2">
+              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-sm bg-cream-100">
                 {product.image ? (
-                  <Image src={product.image} alt="" fill sizes="48px" className="object-cover" />
+                  <Image src={product.image} alt="" fill sizes="40px" className="object-cover" />
                 ) : null}
               </div>
               <div className="min-w-0 flex-1">
@@ -336,7 +336,8 @@ function SummaryContent({
         </p>
       )}
 
-      <dl className="mt-5 space-y-1.5 text-sm">
+      <div className="shrink-0">
+      <dl className="mt-4 space-y-1 text-sm">
         <div className="flex justify-between text-cocoa-500">
           <dt>Einzelpreis</dt>
           <dd>{formatPrice(singleValue)}</dd>
@@ -375,6 +376,7 @@ function SummaryContent({
         <LockIcon className="h-3.5 w-3.5" />
         Sichere Zahlung mit SSL-Verschlüsselung
       </p>
+      </div>
     </div>
   );
 }
