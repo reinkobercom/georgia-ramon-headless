@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { Dialog, Transition } from "@headlessui/react";
 import { ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import LoadingDots from "components/loading-dots";
+import { TruckIcon } from "components/icons/brand";
 import Price from "components/price";
 import { DEFAULT_OPTION } from "lib/constants";
 import { createUrl } from "lib/utils";
@@ -81,6 +82,8 @@ export default function CartModal() {
                   <CloseCart />
                 </button>
               </div>
+
+              <FreeShipping amount={cart?.cost.subtotalAmount.amount ?? "0"} />
 
               {!cart || cart.lines.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
@@ -200,7 +203,6 @@ export default function CartModal() {
                       })}
                   </ul>
                   <div className="py-4 text-sm text-cocoa-500">
-                    <FreeShipping amount={cart.cost.subtotalAmount.amount} />
                     {cart.discountCodes
                       ?.filter((d) => d.applicable)
                       .map((d) => (
@@ -272,28 +274,48 @@ function CheckoutButton() {
 const FREE_SHIPPING_THRESHOLD = 39;
 
 function FreeShipping({ amount }: { amount: string }) {
-  const value = parseFloat(amount);
+  const value = parseFloat(amount) || 0;
   const missing = Math.max(0, FREE_SHIPPING_THRESHOLD - value);
   const progress = Math.min(100, (value / FREE_SHIPPING_THRESHOLD) * 100);
+  const reached = missing === 0;
+  const eur = (n: number) => n.toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
   return (
-    <div className="mb-4 rounded-sm bg-cream-100 p-3 text-xs text-cocoa-700">
-      <p className="mb-2">
-        {missing > 0 ? (
-          <>
-            Noch{" "}
-            <strong>
-              {missing.toLocaleString("de-DE", { style: "currency", currency: "EUR" })}
-            </strong>{" "}
-            bis zum kostenlosen Versand
-          </>
+    <div
+      className={clsx(
+        "mt-4 rounded-sm p-3.5 text-sm",
+        reached ? "bg-[#eef4e6] text-leaf-600" : "bg-cream-100 text-cocoa-700",
+      )}
+      role="status"
+      aria-live="polite"
+    >
+      <p className="flex items-center gap-2">
+        <TruckIcon className="h-5 w-5 shrink-0" />
+        {reached ? (
+          <strong>Glückwunsch – dein Versand ist kostenlos!</strong>
+        ) : value > 0 ? (
+          <span>
+            Noch <strong>{eur(missing)}</strong> bis zum <strong>kostenlosen Versand</strong>
+          </span>
         ) : (
-          <strong className="text-leaf-600">Dein Versand ist kostenlos ✓</strong>
+          <span>
+            <strong>Kostenloser Versand</strong> ab {eur(FREE_SHIPPING_THRESHOLD)}
+          </span>
         )}
       </p>
-      <div className="h-1.5 overflow-hidden rounded-full bg-cream-300">
-        <div className="h-full rounded-full bg-gold-500 transition-all" style={{ width: `${progress}%` }} />
+      <div className="relative mt-2.5 h-2 overflow-hidden rounded-full bg-cream-300">
+        <div
+          className={clsx(
+            "h-full rounded-full transition-[width] duration-500",
+            reached ? "bg-leaf-600" : "bg-gold-500",
+          )}
+          style={{ width: `${progress}%` }}
+        />
       </div>
+      <p className="mt-1.5 flex justify-between text-[11px] text-cocoa-500">
+        <span>{eur(value)}</span>
+        <span>{eur(FREE_SHIPPING_THRESHOLD)}</span>
+      </p>
     </div>
   );
 }

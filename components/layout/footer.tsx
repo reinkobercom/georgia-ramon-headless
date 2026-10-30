@@ -6,6 +6,7 @@ import { buildMainNav } from "lib/navigation";
 import Link from "next/link";
 import { Certificates } from "./certificates";
 import { NewsletterForm } from "./newsletter-form";
+import { SocialIcons } from "./social-icons";
 
 
 export default async function Footer() {
@@ -44,6 +45,7 @@ export default async function Footer() {
             Bean-to-Bar Schokolade aus Soest. Von der Kakaobohne bis zur Tafel – in
             unserer eigenen Manufaktur.
           </p>
+          <SocialIcons className="mt-6" />
         </div>
         <FooterColumn title={shopGroup?.title ?? "Shop"} items={shopGroup?.items ?? []} />
         <FooterColumn title="Entdecken" items={discover} />
