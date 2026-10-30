@@ -1,10 +1,12 @@
 import { CartProvider } from "components/cart/cart-context";
+import { ConsentManager } from "components/consent/consent";
 import Footer from "components/layout/footer";
 import { Navbar } from "components/layout/navbar";
 import { getCart } from "lib/shopify";
 import { baseUrl } from "lib/utils";
 import { Inter, Playfair_Display } from "next/font/google";
 import { ReactNode } from "react";
+import Script from "next/script";
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -53,6 +55,11 @@ export default async function RootLayout({
           </main>
           <Footer />
         </CartProvider>
+        <ConsentManager />
+        {/* Vercel Web Analytics (cookiefrei) – aktiv, sobald im Vercel-Projekt eingeschaltet */}
+        {process.env.NEXT_PUBLIC_VERCEL_ANALYTICS === "true" ? (
+          <Script src="/_vercel/insights/script.js" strategy="afterInteractive" />
+        ) : null}
       </body>
     </html>
   );

@@ -3,13 +3,19 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Logo from "components/logo-square";
-import { mainNav, shopLinks, uspItems } from "lib/navigation";
+import { PROBIERBOX_ITEM, uspItems, type NavItem } from "lib/navigation";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Fragment, Suspense, useEffect, useState } from "react";
 import Search, { SearchSkeleton } from "./search";
 
-export default function MobileMenu({ accountHref }: { accountHref: string }) {
+export default function MobileMenu({
+  nav,
+  accountHref,
+}: {
+  nav: NavItem[];
+  accountHref: string;
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -77,28 +83,39 @@ export default function MobileMenu({ accountHref }: { accountHref: string }) {
               </div>
 
               <nav className="px-4 py-6">
-                <p className="eyebrow mb-3 text-gold-400">Shop</p>
-                <ul className="mb-6 grid grid-cols-2 gap-x-4">
-                  {shopLinks.map((item) => (
-                    <li key={item.path}>
-                      <Link href={item.path} onClick={close} className="block py-2 text-[15px] text-cream-100">
-                        {item.title}
-                      </Link>
-                    </li>
+                {nav
+                  .filter((item) => item.items?.length)
+                  .map((group) => (
+                    <div key={group.title} className="mb-6">
+                      <p className="eyebrow mb-3 text-gold-400">{group.title}</p>
+                      <ul className="grid grid-cols-2 gap-x-4">
+                        {group.items!.map((item) => (
+                          <li key={item.title}>
+                            <Link href={item.path} onClick={close} className="block py-2 text-[15px] text-cream-100">
+                              {item.title}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
                 <ul className="border-t border-cocoa-700">
-                  {mainNav.map((item) => (
-                    <li key={item.path} className="border-b border-cocoa-700">
-                      <Link
-                        href={item.path}
-                        onClick={close}
-                        className="block py-4 font-serif text-xl"
-                      >
-                        {item.title}
-                      </Link>
-                    </li>
-                  ))}
+                  {nav
+                    .filter((item) => !item.items?.length)
+                    .map((item) => (
+                      <li key={item.title} className="border-b border-cocoa-700">
+                        <Link
+                          href={item.path}
+                          onClick={close}
+                          className={
+                            "block py-4 font-serif text-xl" +
+                            (item.path === PROBIERBOX_ITEM.path ? " text-gold-400" : "")
+                          }
+                        >
+                          {item.title}
+                        </Link>
+                      </li>
+                    ))}
                   <li className="border-b border-cocoa-700">
                     <a href={accountHref} className="block py-4 font-serif text-xl">
                       Kundenkonto

@@ -70,7 +70,7 @@ const CATEGORIES = [
   { title: "Veredelt", subtitle: "Mit besonderen Zutaten", collection: "schokolade-veredelt" },
   { title: "Nüsse & Früchte", subtitle: "Ganze Stücke, voller Geschmack", collection: "schokolade-mit-ganzen-nussen-fruchten" },
   { title: "Vegan", subtitle: "Pflanzlich genießen", collection: "vegan" },
-  { title: "Limited Editions", subtitle: "Nur für kurze Zeit", collection: "limited-edition" },
+  { title: "Pur", subtitle: "Reine Ursprungsschokolade", collection: "schokolade-pur" },
 ];
 
 export async function getCategoryTiles(): Promise<CategoryTile[]> {

@@ -4,6 +4,7 @@ import {
   TAGS,
 } from "lib/constants";
 import { isShopifyError } from "lib/type-guards";
+import { mapShopifyUrl } from "lib/url-map";
 import { ensureStartsWith } from "lib/utils";
 import {
   unstable_cacheLife as cacheLife,
@@ -426,16 +427,13 @@ export async function getMenu(handle: string): Promise<Menu[]> {
     },
   });
 
-  return (
-    res.body?.data?.menu?.items.map((item: { title: string; url: string }) => ({
-      title: item.title,
-      path: item.url
-        .replace(/^https?:\/\/[^/]+/, "")
-        .replace(/^\/collections\/all\/?$/, "/search")
-        .replace("/collections", "/search")
-        .replace("/pages", ""),
-    })) || []
-  );
+  type RawItem = { title: string; url: string; items?: RawItem[] };
+  const map = (item: RawItem): Menu => ({
+    title: item.title,
+    path: mapShopifyUrl(item.url),
+    items: item.items?.length ? item.items.map(map) : undefined,
+  });
+  return (res.body?.data?.menu?.items as RawItem[] | undefined)?.map(map) || [];
 }
 
 export async function getPage(handle: string): Promise<Page> {

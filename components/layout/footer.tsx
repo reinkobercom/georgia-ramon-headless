@@ -1,7 +1,8 @@
+import { ConsentSettingsLink } from "components/consent/consent";
 import { HeartIcon } from "components/icons/brand";
 import Logo from "components/logo-square";
 import { getMenu } from "lib/shopify";
-import { mainNav, shopLinks } from "lib/navigation";
+import { buildMainNav } from "lib/navigation";
 import Link from "next/link";
 import { Certificates } from "./certificates";
 import { NewsletterForm } from "./newsletter-form";
@@ -10,7 +11,13 @@ import { NewsletterForm } from "./newsletter-form";
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
   // Rechtliche Links kommen aus dem Shopify-Menü „footer“.
-  const legal = await getMenu("footer");
+  const [legal, main] = await Promise.all([
+    getMenu("footer").catch(() => []),
+    getMenu("main-menu").catch(() => []),
+  ]);
+  const nav = buildMainNav(main);
+  const shopGroup = nav.find((i) => i.items?.length);
+  const discover = nav.filter((i) => !i.items?.length);
 
   return (
     <footer className="bg-cocoa-950 text-cream-200">
@@ -38,8 +45,8 @@ export default async function Footer() {
             unserer eigenen Manufaktur.
           </p>
         </div>
-        <FooterColumn title="Shop" items={shopLinks} />
-        <FooterColumn title="Entdecken" items={mainNav} />
+        <FooterColumn title={shopGroup?.title ?? "Shop"} items={shopGroup?.items ?? []} />
+        <FooterColumn title="Entdecken" items={discover} />
         <FooterColumn title="Service & Rechtliches" items={legal} />
       </div>
 
@@ -50,7 +57,10 @@ export default async function Footer() {
             <HeartIcon aria-label="Herz" className="inline h-3.5 w-3.5 -translate-y-px fill-gold-500 text-gold-500" />{" "}
             gemacht in Soest
           </p>
-          <p>Alle Preise inkl. MwSt., zzgl. Versandkosten.</p>
+          <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span>Alle Preise inkl. MwSt., zzgl. Versandkosten.</span>
+            <ConsentSettingsLink className="underline hover:text-gold-300" />
+          </p>
         </div>
       </div>
     </footer>

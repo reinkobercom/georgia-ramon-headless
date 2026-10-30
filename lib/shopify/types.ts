@@ -51,6 +51,7 @@ export type Image = {
 export type Menu = {
   title: string;
   path: string;
+  items?: Menu[];
 };
 
 export type Money = {
