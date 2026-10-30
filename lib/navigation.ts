@@ -3,8 +3,8 @@ export type NavItem = { title: string; path: string };
 // Hauptnavigation – Kollektions-Handles aus Shopify.
 export const shopLinks: NavItem[] = [
   { title: "Alle Sorten", path: "/search" },
-  { title: "Dunkle Schokolade", path: "/search/zartbitter" },
-  { title: "Vollmilch", path: "/search/vollmilch" },
+  { title: "Dunkle Schokolade", path: "/search/dunkle-schokolade-pur" },
+  { title: "Vollmilch", path: "/search/schokolade-mit-milch" },
   { title: "Veredelt", path: "/search/schokolade-veredelt" },
   { title: "Vegan", path: "/search/vegan" },
   { title: "Bio", path: "/search/bio" },

@@ -23,14 +23,13 @@ async function nonBarHandles() {
 
 export type BoxFilter = { key: string; label: string; handles: string[] };
 
-const BOX_FILTERS: { key: string; label: string; collection: string }[] = [
-  { key: "dunkel", label: "Dunkel", collection: "zartbitter" },
-  { key: "vollmilch", label: "Vollmilch", collection: "vollmilch" },
-  { key: "weiss", label: "Weiß", collection: "weisse-schokolade-veredelt" },
-  { key: "veredelt", label: "Veredelt", collection: "schokolade-veredelt" },
-  { key: "nuss-frucht", label: "Nüsse & Früchte", collection: "schokolade-mit-ganzen-nussen-fruchten" },
-  { key: "vegan", label: "Vegan", collection: "vegan" },
-  { key: "bio", label: "Bio", collection: "bio" },
+const BOX_FILTERS: { key: string; label: string; collections: string[] }[] = [
+  { key: "dunkel", label: "Dunkel", collections: ["dunkle-schokolade-pur", "dunkle-schokolade-veredelt"] },
+  { key: "vollmilch", label: "Vollmilch", collections: ["vollmilchschokolade-pur", "vollmilchschokolade-veredelt", "schokolade-mit-milch"] },
+  { key: "weiss", label: "Weiß", collections: ["weisse-schokolade-veredelt"] },
+  { key: "veredelt", label: "Veredelt", collections: ["schokolade-veredelt"] },
+  { key: "nuss-frucht", label: "Nüsse & Früchte", collections: ["schokolade-mit-ganzen-nussen-fruchten"] },
+  { key: "vegan", label: "Vegan", collections: ["vegan", "vegane-schokolade"] },
 ];
 
 /** Alle einzelnen Tafeln für die Probierbox plus Filter-Zuordnung. */
@@ -44,10 +43,13 @@ export async function getBoxCatalog() {
   const filters: BoxFilter[] = (
     await Promise.all(
       BOX_FILTERS.map(async (f) => {
-        const items = await getCollectionProducts({ collection: f.collection }).catch(
-          () => [] as Product[],
+        const lists = await Promise.all(
+          f.collections.map((collection) =>
+            getCollectionProducts({ collection }).catch(() => [] as Product[]),
+          ),
         );
-        return { key: f.key, label: f.label, handles: items.map((p) => p.handle) };
+        const handles = [...new Set(lists.flat().map((p) => p.handle))];
+        return { key: f.key, label: f.label, handles };
       }),
     )
   ).filter((f) => f.handles.some((h) => bars.some((b) => b.handle === h)));
@@ -63,8 +65,8 @@ export type CategoryTile = {
 };
 
 const CATEGORIES = [
-  { title: "Dunkel", subtitle: "Kräftig & intensiv", collection: "zartbitter" },
-  { title: "Vollmilch", subtitle: "Cremig & ausgewogen", collection: "vollmilch" },
+  { title: "Dunkel", subtitle: "Kräftig & intensiv", collection: "dunkle-schokolade-pur" },
+  { title: "Vollmilch", subtitle: "Cremig & ausgewogen", collection: "schokolade-mit-milch" },
   { title: "Veredelt", subtitle: "Mit besonderen Zutaten", collection: "schokolade-veredelt" },
   { title: "Nüsse & Früchte", subtitle: "Ganze Stücke, voller Geschmack", collection: "schokolade-mit-ganzen-nussen-fruchten" },
   { title: "Vegan", subtitle: "Pflanzlich genießen", collection: "vegan" },
