@@ -1,3 +1,4 @@
+import { HeartIcon } from "components/icons/brand";
 import Logo from "components/logo-square";
 import { getMenu } from "lib/shopify";
 import { mainNav, shopLinks } from "lib/navigation";
@@ -5,7 +6,6 @@ import Link from "next/link";
 import { Certificates } from "./certificates";
 import { NewsletterForm } from "./newsletter-form";
 
-const { COMPANY_NAME } = process.env;
 
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
@@ -46,7 +46,9 @@ export default async function Footer() {
       <div className="border-t border-cocoa-700">
         <div className="container-shop flex flex-col gap-2 py-6 text-xs text-cream-300 md:flex-row md:items-center md:justify-between">
           <p>
-            &copy; {currentYear} {COMPANY_NAME || "Georgia Ramon"}. Alle Rechte vorbehalten.
+            &copy; {currentYear} Georgia Ramon – mit{" "}
+            <HeartIcon aria-label="Herz" className="inline h-3.5 w-3.5 -translate-y-px fill-gold-500 text-gold-500" />{" "}
+            gemacht in Soest
           </p>
           <p>Alle Preise inkl. MwSt., zzgl. Versandkosten.</p>
         </div>
