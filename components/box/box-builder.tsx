@@ -4,11 +4,12 @@ import { CheckIcon, MinusIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/o
 import clsx from "clsx";
 import { BoxIcon, LockIcon, VeganIcon } from "components/icons/brand";
 import { VeganBadge } from "components/product-card";
-import { BOX } from "lib/box";
+import { addBoxToCart } from "components/cart/actions";
+import { BOX_OPTIONS, type BoxOption } from "lib/box";
 import type { BoxFilter } from "lib/catalog";
 import { formatPrice } from "lib/format";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 export type BoxProduct = {
@@ -35,9 +36,13 @@ export function BoxBuilder({
   const [filter, setFilter] = useState<string>("all");
   const [sort, setSort] = useState<Sort>("popular");
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [box, setBox] = useState<BoxOption>(
+    BOX_OPTIONS.find((o) => o.popular) ?? BOX_OPTIONS[0]!,
+  );
+  const [pending, startTransition] = useTransition();
 
   const count = Object.values(selection).reduce((a, b) => a + b, 0);
-  const remaining = BOX.size - count;
+  const remaining = box.size - count;
   const complete = remaining === 0;
   const byHandle = useMemo(
     () => Object.fromEntries(products.map((p) => [p.handle, p])),
@@ -47,6 +52,7 @@ export function BoxBuilder({
     .filter(([, qty]) => qty > 0)
     .map(([handle, qty]) => ({ product: byHandle[handle]!, qty }));
   const singleValue = selectedItems.reduce((sum, i) => sum + i.product.price * i.qty, 0);
+  const boxValue = singleValue * (1 - box.discount / 100);
 
   const visible = useMemo(() => {
     const active = filters.find((f) => f.key === filter);
@@ -62,8 +68,8 @@ export function BoxBuilder({
     setSelection((prev) => {
       const current = prev[handle] ?? 0;
       const total = Object.values(prev).reduce((a, b) => a + b, 0);
-      if (delta > 0 && total >= BOX.size) {
-        toast(`Deine Box ist voll – ${BOX.size} von ${BOX.size} Tafeln gewählt.`);
+      if (delta > 0 && total >= box.size) {
+        toast(`Deine Box ist voll – ${box.size} von ${box.size} Tafeln gewählt.`);
         return prev;
       }
       const next = Math.max(0, current + delta);
@@ -71,10 +77,25 @@ export function BoxBuilder({
     });
   }
 
-  function addBoxToCart() {
-    if (!complete) return;
-    // Technische Anbindung (Bundle mit Festpreis in Shopify) folgt im nächsten Schritt.
-    toast("Deine Box ist vollständig! Die Verbindung zum Checkout wird im nächsten Schritt angebunden.");
+  function submitBox() {
+    if (!complete || pending) return;
+    startTransition(async () => {
+      const res = await addBoxToCart({
+        boxLabel: box.label,
+        code: box.code,
+        lines: selectedItems.map(({ product, qty }) => ({
+          merchandiseId: product.variantId,
+          quantity: qty,
+        })),
+      });
+      if (res.ok) {
+        toast.success(`Deine ${box.label} liegt im Warenkorb – ${box.discount} % Box-Rabatt inklusive.`);
+        setSelection({});
+        setSheetOpen(false);
+      } else {
+        toast.error("Das hat leider nicht geklappt. Bitte versuche es noch einmal.");
+      }
+    });
   }
 
   const summary = (
@@ -83,8 +104,11 @@ export function BoxBuilder({
       remaining={remaining}
       items={selectedItems}
       singleValue={singleValue}
+      boxValue={boxValue}
+      box={box}
+      pending={pending}
       onRemove={(h) => change(h, -999)}
-      onSubmit={addBoxToCart}
+      onSubmit={submitBox}
     />
   );
 
@@ -93,33 +117,53 @@ export function BoxBuilder({
       {/* Schritt 1: Box-Konditionen (aktuell nur die 10er-Box) */}
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
         <div className="min-w-0">
-          <div className="relative flex flex-col gap-5 rounded-sm border-2 border-gold-500 bg-white/60 p-6 sm:flex-row sm:items-center sm:p-8">
-            <span className="absolute -top-3 left-6 rounded-sm bg-gold-500 px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-cocoa-950 uppercase">
-              Probierbox
-            </span>
-            <BoxIcon className="h-14 w-14 shrink-0 text-cocoa-700" />
-            <div className="flex-1">
-              <p className="font-serif text-2xl sm:text-3xl">{BOX.size}er Box</p>
-              <p className="mt-1 text-sm text-cocoa-500">
-                {BOX.size} Tafeln deiner Wahl – zum Entdecken, Teilen & Verschenken
-              </p>
-            </div>
-            <div className="sm:text-right">
-              <p className="font-serif text-3xl">{formatPrice(BOX.price)}</p>
-              <p className="text-xs text-cocoa-500">
-                statt <span className="line-through">{formatPrice(BOX.compareAt)}</span>
-              </p>
-              <p className="mt-2 inline-block rounded-sm bg-cream-200 px-2 py-1 text-xs font-semibold text-gold-600">
-                {formatPrice(BOX.compareAt - BOX.price)} sparen
-              </p>
-            </div>
+          <p className="eyebrow mb-3 text-cocoa-500">1. Wähle deine Box</p>
+          <div className="grid grid-cols-2 gap-3 sm:gap-5">
+            {BOX_OPTIONS.map((o) => {
+              const active = o.size === box.size;
+              return (
+                <button
+                  key={o.size}
+                  type="button"
+                  onClick={() => setBox(o)}
+                  aria-pressed={active}
+                  className={clsx(
+                    "relative flex flex-col items-start rounded-sm border-2 bg-white/70 p-4 text-left transition-colors sm:p-6",
+                    active ? "border-gold-500" : "border-cream-300 hover:border-cocoa-500",
+                  )}
+                >
+                  {o.popular ? (
+                    <span className="absolute -top-3 left-4 rounded-sm bg-gold-500 px-2 py-0.5 text-[9px] font-semibold tracking-[0.14em] text-cocoa-950 uppercase sm:text-[10px]">
+                      Beliebteste Wahl
+                    </span>
+                  ) : null}
+                  <span className="flex w-full items-center justify-between gap-2">
+                    <span className="font-serif text-2xl sm:text-3xl">{o.label}</span>
+                    <span
+                      className={clsx(
+                        "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2",
+                        active ? "border-gold-500" : "border-cream-300",
+                      )}
+                    >
+                      {active ? <span className="h-2.5 w-2.5 rounded-full bg-gold-500" /> : null}
+                    </span>
+                  </span>
+                  <span className="mt-1 text-xs text-cocoa-500 sm:text-sm">
+                    {o.tagline} · {o.size} Tafeln deiner Wahl
+                  </span>
+                  <span className="mt-3 rounded-sm bg-cream-200 px-2 py-1 text-xs font-semibold text-gold-600">
+                    −{o.discount} % auf alle Tafeln
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Schritt 2: Sorten wählen */}
           <div className="mt-10 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
-            <h2 className="font-serif text-2xl">Wähle deine Schokoladen</h2>
+            <h2 className="font-serif text-2xl">2. Wähle deine Schokoladen</h2>
             <p className="text-sm text-cocoa-500">
-              ({count} von {BOX.size})
+              ({count} von {box.size})
             </p>
           </div>
 
@@ -188,23 +232,27 @@ export function BoxBuilder({
             aria-expanded={sheetOpen}
           >
             <span className="text-sm font-semibold">
-              {count} von {BOX.size} Tafeln {sheetOpen ? "▾" : "▴"}
+              {box.label}: {count} von {box.size} {sheetOpen ? "▾" : "▴"}
             </span>
             <span className="text-xs text-cream-300">
-              {complete ? "Deine Box ist komplett" : `Noch ${remaining} wählen`} ·{" "}
-              {formatPrice(BOX.price)}
+              {remaining < 0
+                ? `${-remaining} zu viel`
+                : complete
+                  ? "Deine Box ist komplett"
+                  : `Noch ${remaining} wählen`}
+              {singleValue > 0 ? ` · ${formatPrice(boxValue)}` : ""}
             </span>
           </button>
           <button
             type="button"
-            onClick={addBoxToCart}
-            disabled={!complete}
+            onClick={submitBox}
+            disabled={!complete || pending}
             className="btn-gold px-4 py-3 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            In den Warenkorb
+            {pending ? "Wird gelegt …" : "In den Warenkorb"}
           </button>
         </div>
-        <ProgressBar count={count} className="h-1 rounded-none bg-cocoa-800" />
+        <ProgressBar count={count} size={box.size} className="h-1 rounded-none bg-cocoa-800" />
       </div>
     </div>
   );
@@ -215,6 +263,9 @@ function SummaryContent({
   remaining,
   items,
   singleValue,
+  boxValue,
+  box,
+  pending,
   onRemove,
   onSubmit,
 }: {
@@ -222,6 +273,9 @@ function SummaryContent({
   remaining: number;
   items: { product: BoxProduct; qty: number }[];
   singleValue: number;
+  boxValue: number;
+  box: BoxOption;
+  pending: boolean;
   onRemove: (handle: string) => void;
   onSubmit: () => void;
 }) {
@@ -230,10 +284,10 @@ function SummaryContent({
     <div>
       <p className="flex items-center gap-2 eyebrow">
         <BoxIcon className="h-5 w-5" />
-        Deine Box
+        Deine {box.label}
       </p>
       <div className="mt-4 flex gap-1.5" aria-hidden>
-        {Array.from({ length: BOX.size }).map((_, i) => (
+        {Array.from({ length: box.size }).map((_, i) => (
           <span
             key={i}
             className={clsx(
@@ -244,7 +298,7 @@ function SummaryContent({
         ))}
       </div>
       <p className="mt-3 text-sm text-cocoa-700">
-        {count} von {BOX.size} Tafeln ausgewählt
+        {count} von {box.size} Tafeln ausgewählt
       </p>
 
       {items.length ? (
@@ -284,12 +338,16 @@ function SummaryContent({
 
       <dl className="mt-5 space-y-1.5 text-sm">
         <div className="flex justify-between text-cocoa-500">
-          <dt>Einzelpreis deiner Auswahl</dt>
+          <dt>Einzelpreis</dt>
           <dd>{formatPrice(singleValue)}</dd>
         </div>
+        <div className="flex justify-between text-gold-600">
+          <dt>Box-Rabatt −{box.discount} %</dt>
+          <dd>−{formatPrice(singleValue - boxValue)}</dd>
+        </div>
         <div className="flex justify-between text-base font-semibold">
-          <dt>Boxpreis</dt>
-          <dd>{formatPrice(BOX.price)}</dd>
+          <dt>Dein Boxpreis</dt>
+          <dd>{formatPrice(boxValue)}</dd>
         </div>
       </dl>
       <p
@@ -298,18 +356,20 @@ function SummaryContent({
           complete ? "text-leaf-600" : "text-gold-600",
         )}
       >
-        {complete
-          ? "Perfekt – deine Box ist komplett!"
-          : `Noch ${remaining} ${remaining === 1 ? "Tafel" : "Tafeln"} auswählen`}
+        {remaining < 0
+          ? `Bitte ${-remaining} ${remaining === -1 ? "Tafel" : "Tafeln"} entfernen`
+          : complete
+            ? "Perfekt – deine Box ist komplett!"
+            : `Noch ${remaining} ${remaining === 1 ? "Tafel" : "Tafeln"} auswählen`}
       </p>
 
       <button
         type="button"
         onClick={onSubmit}
-        disabled={!complete}
+        disabled={!complete || pending}
         className="btn-dark mt-4 w-full py-4 disabled:cursor-not-allowed disabled:opacity-50"
       >
-        Box in den Warenkorb →
+        {pending ? "Wird in den Warenkorb gelegt …" : "Box in den Warenkorb →"}
       </button>
       <p className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-cocoa-500">
         <LockIcon className="h-3.5 w-3.5" />
@@ -430,12 +490,20 @@ function Chip({
   );
 }
 
-function ProgressBar({ count, className }: { count: number; className?: string }) {
+function ProgressBar({
+  count,
+  size,
+  className,
+}: {
+  count: number;
+  size: number;
+  className?: string;
+}) {
   return (
     <div className={clsx("overflow-hidden", className)}>
       <div
         className="h-full bg-gold-500 transition-all"
-        style={{ width: `${(count / BOX.size) * 100}%` }}
+        style={{ width: `${Math.min(100, (count / size) * 100)}%` }}
       />
     </div>
   );

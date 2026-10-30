@@ -17,6 +17,7 @@ import {
   createCartMutation,
   editCartItemsMutation,
   removeFromCartMutation,
+  updateDiscountCodesMutation,
 } from "./mutations/cart";
 import { getCartQuery } from "./queries/cart";
 import {
@@ -234,9 +235,14 @@ export async function createCart(): Promise<Cart> {
 }
 
 export async function addToCart(
-  lines: { merchandiseId: string; quantity: number }[]
+  lines: {
+    merchandiseId: string;
+    quantity: number;
+    attributes?: { key: string; value: string }[];
+  }[],
+  cartIdOverride?: string
 ): Promise<Cart> {
-  const cartId = (await cookies()).get("cartId")?.value!;
+  const cartId = cartIdOverride ?? (await cookies()).get("cartId")?.value!;
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
     query: addToCartMutation,
     variables: {
@@ -549,4 +555,19 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
   }
 
   return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });
+}
+
+export async function updateDiscountCodes(
+  discountCodes: string[],
+  cartIdOverride?: string
+): Promise<Cart> {
+  const cartId = cartIdOverride ?? (await cookies()).get("cartId")?.value!;
+  const res = await shopifyFetch<{
+    data: { cartDiscountCodesUpdate: { cart: ShopifyCart } };
+    variables: { cartId: string; discountCodes: string[] };
+  }>({
+    query: updateDiscountCodesMutation,
+    variables: { cartId, discountCodes },
+  });
+  return reshapeCart(res.body.data.cartDiscountCodesUpdate.cart);
 }

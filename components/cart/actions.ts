@@ -7,6 +7,7 @@ import {
   getCart,
   removeFromCart,
   updateCart,
+  updateDiscountCodes,
 } from "lib/shopify";
 import { updateTag } from "next/cache";
 import { cookies } from "next/headers";
@@ -103,4 +104,36 @@ export async function redirectToCheckout() {
 export async function createCartAndSetCookie() {
   let cart = await createCart();
   (await cookies()).set("cartId", cart.id!);
+}
+
+/** Probierbox: Tafeln einzeln (mit Box-Kennzeichnung) in den Warenkorb + Rabattcode setzen. */
+export async function addBoxToCart(payload: {
+  boxLabel: string;
+  code: string;
+  lines: { merchandiseId: string; quantity: number }[];
+}) {
+  try {
+    const jar = await cookies();
+    let cartId = jar.get("cartId")?.value;
+    if (!cartId || !(await getCart())) {
+      const created = await createCart();
+      cartId = created.id!;
+      jar.set("cartId", cartId);
+    }
+    const cart = await addToCart(
+      payload.lines.map((l) => ({
+        ...l,
+        attributes: [{ key: "Probierbox", value: payload.boxLabel }],
+      })),
+      cartId,
+    );
+    const codes = new Set((cart.discountCodes ?? []).map((d) => d.code));
+    codes.add(payload.code);
+    await updateDiscountCodes([...codes], cartId);
+    updateTag(TAGS.cart);
+    return { ok: true as const };
+  } catch (e) {
+    console.error(e);
+    return { ok: false as const };
+  }
 }

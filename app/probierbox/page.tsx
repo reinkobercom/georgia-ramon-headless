@@ -1,12 +1,12 @@
 import { BoxBuilder, type BoxProduct } from "components/box/box-builder";
 import { BoxIcon, HeartIcon, LeafIcon, PinIcon, StarIcon } from "components/icons/brand";
-import { BOX } from "lib/box";
+import { BOX_SIZES_TEXT, MAX_BOX_DISCOUNT } from "lib/box";
 import { getBoxCatalog } from "lib/catalog";
-import { formatPrice, isVegan } from "lib/format";
+import { isVegan } from "lib/format";
 
 export const metadata = {
   title: "Probierbox zusammenstellen",
-  description: `${BOX.size} Tafeln Bean-to-Bar Schokolade nach Wahl für ${formatPrice(BOX.price)}.`,
+  description: `${BOX_SIZES_TEXT} Tafeln Bean-to-Bar Schokolade nach Wahl – bis zu ${MAX_BOX_DISCOUNT} % sparen.`,
 };
 
 export default async function ProbierboxPage() {
@@ -31,7 +31,8 @@ export default async function ProbierboxPage() {
           Stell dir deine Schokoladenbox zusammen
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-[15px] text-cocoa-700">
-          Wähle {BOX.size} Lieblingssorten und spare im Vergleich zum Einzelkauf.
+          Wähle {BOX_SIZES_TEXT} Lieblingssorten und spare bis zu {MAX_BOX_DISCOUNT} % im
+          Vergleich zum Einzelkauf.
         </p>
       </section>
 

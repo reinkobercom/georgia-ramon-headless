@@ -153,6 +153,12 @@ export default function CartModal() {
                                     <span className="leading-tight">
                                       {item.merchandise.product.title}
                                     </span>
+                                    {item.attributes?.find((a) => a.key === "Probierbox") ? (
+                                      <p className="text-xs font-semibold text-gold-600">
+                                        Teil deiner{" "}
+                                        {item.attributes.find((a) => a.key === "Probierbox")!.value}
+                                      </p>
+                                    ) : null}
                                     {item.merchandise.title !==
                                     DEFAULT_OPTION ? (
                                       <p className="text-sm text-cocoa-500">
@@ -195,6 +201,13 @@ export default function CartModal() {
                   </ul>
                   <div className="py-4 text-sm text-cocoa-500">
                     <FreeShipping amount={cart.cost.subtotalAmount.amount} />
+                    {cart.discountCodes
+                      ?.filter((d) => d.applicable)
+                      .map((d) => (
+                        <p key={d.code} className="mb-3 rounded-sm bg-cream-100 px-3 py-2 text-xs font-semibold text-leaf-600">
+                          ✓ Rabatt „{d.code}“ ist aktiv
+                        </p>
+                      ))}
                     <div className="mb-3 flex items-center justify-between border-b border-cream-300 pb-1">
                       <p>inkl. MwSt.</p>
                       <Price

@@ -16,10 +16,9 @@ import {
   WaveIcon,
 } from "components/icons/brand";
 import { ProductCard } from "components/product-card";
-import { BOX } from "lib/box";
+import { BOX_SIZES_TEXT, MAX_BOX_DISCOUNT } from "lib/box";
 import { brandImages } from "lib/brand-images";
 import type { CategoryTile } from "lib/catalog";
-import { formatPrice } from "lib/format";
 import type { Product } from "lib/shopify/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -118,26 +117,25 @@ export function BoxTeaser({ products }: { products: Product[] }) {
         </div>
         <div className="relative p-7 sm:p-10 lg:p-12">
           <div className="absolute top-6 right-6 hidden h-20 w-20 flex-col items-center justify-center rounded-full border-2 border-gold-500 text-center sm:flex">
-            <span className="font-serif text-3xl leading-none">{BOX.size}</span>
-            <span className="text-[9px] font-semibold tracking-[0.14em] uppercase">Tafeln</span>
+            <span className="text-[9px] font-semibold tracking-[0.14em] uppercase">bis zu</span>
+            <span className="font-serif text-2xl leading-none">−{MAX_BOX_DISCOUNT} %</span>
           </div>
           <p className="eyebrow text-gold-600">Neu hier?</p>
           <h2 className="mt-2 max-w-sm font-serif text-3xl leading-tight sm:text-4xl">
             Stell dir deine Probierbox zusammen
           </h2>
           <p className="mt-4 max-w-md text-[15px] leading-relaxed text-cocoa-700">
-            {BOX.size} Tafeln, {BOX.size} Geschmackswelten – ganz nach deiner Wahl. Entdecke
-            unsere Sorten und finde deinen Favoriten.
+            {BOX_SIZES_TEXT} Tafeln ganz nach deiner Wahl – entdecke unsere Sorten, finde deinen
+            Favoriten und spare bis zu {MAX_BOX_DISCOUNT} % gegenüber dem Einzelkauf.
           </p>
           <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-xs text-cocoa-700">
-            <li className="flex items-center gap-2"><BarIcon className="h-5 w-5" />{BOX.size} Sorten nach Wahl</li>
+            <li className="flex items-center gap-2"><BarIcon className="h-5 w-5" />{BOX_SIZES_TEXT} Sorten nach Wahl</li>
             <li className="flex items-center gap-2"><HeartIcon className="h-5 w-5" />Ideal zum Probieren</li>
             <li className="flex items-center gap-2"><GiftIcon className="h-5 w-5" />Schön zum Verschenken</li>
           </ul>
           <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center">
-            <p className="flex items-baseline gap-3">
-              <span className="text-sm text-cocoa-500 line-through">{formatPrice(BOX.compareAt)}</span>
-              <span className="font-serif text-3xl">{formatPrice(BOX.price)}</span>
+            <p className="font-serif text-2xl">
+              Bis zu <span className="text-gold-600">−{MAX_BOX_DISCOUNT} %</span>
             </p>
             <Link href="/probierbox" className="btn-dark sm:ml-auto">
               Box zusammenstellen
@@ -339,11 +337,10 @@ export function BoxStrip() {
         <BoxIcon className="h-10 w-10 shrink-0 text-gold-400" />
         <div>
           <p className="font-serif text-xl sm:text-2xl">
-            Lieber probieren? {BOX.size} Sorten nach Wahl
+            Lieber probieren? {BOX_SIZES_TEXT} Sorten nach Wahl
           </p>
           <p className="mt-1 text-sm text-cream-300">
-            Stell dir deine Probierbox zusammen – für {formatPrice(BOX.price)} statt{" "}
-            {formatPrice(BOX.compareAt)}.
+            Stell dir deine Probierbox zusammen und spare bis zu {MAX_BOX_DISCOUNT} %.
           </p>
         </div>
         <Link href="/probierbox" className="btn-gold sm:ml-auto">

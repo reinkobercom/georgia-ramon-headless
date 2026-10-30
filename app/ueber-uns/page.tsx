@@ -242,7 +242,7 @@ export default function AboutPage() {
       <section className="container-shop py-16 text-center md:py-20">
         <h2 className="font-serif text-3xl sm:text-4xl">Schmeck den Unterschied.</h2>
         <p className="mx-auto mt-3 max-w-lg text-[15px] text-cocoa-700">
-          Am besten probierst du dich durch – mit 10 Sorten deiner Wahl.
+          Am besten probierst du dich durch – mit 6 oder 10 Sorten deiner Wahl in der Probierbox.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <Link href="/probierbox" className="btn-gold">
