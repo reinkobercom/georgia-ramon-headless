@@ -1,6 +1,7 @@
 import { ChevronDownIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
 import CartModal from "components/cart/modal";
 import Logo from "components/logo-square";
+import { accountHref } from "lib/customer-account";
 import { mainNav, shopLinks } from "lib/navigation";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -15,7 +16,7 @@ export async function Navbar() {
           {/* Mobil: Menü links */}
           <div className="flex w-20 items-center lg:hidden">
             <Suspense fallback={null}>
-              <MobileMenu />
+              <MobileMenu accountHref={accountHref} />
             </Suspense>
           </div>
 
@@ -62,7 +63,7 @@ export async function Navbar() {
               <MagnifyingGlassIcon className="h-5 w-5" />
             </Link>
             <a
-              href="https://georgia-ramon.com/account"
+              href={accountHref}
               aria-label="Kundenkonto"
               className="hidden h-10 w-10 items-center justify-center transition-colors hover:text-gold-300 sm:flex"
             >

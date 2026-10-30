@@ -9,7 +9,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { Fragment, Suspense, useEffect, useState } from "react";
 import Search, { SearchSkeleton } from "./search";
 
-export default function MobileMenu() {
+export default function MobileMenu({ accountHref }: { accountHref: string }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -100,7 +100,7 @@ export default function MobileMenu() {
                     </li>
                   ))}
                   <li className="border-b border-cocoa-700">
-                    <a href="https://georgia-ramon.com/account" className="block py-4 font-serif text-xl">
+                    <a href={accountHref} className="block py-4 font-serif text-xl">
                       Kundenkonto
                     </a>
                   </li>
