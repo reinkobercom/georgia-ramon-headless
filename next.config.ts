@@ -1,4 +1,13 @@
 export default {
+  // Testphase: Suchmaschinen fernhalten (vor dem Livegang entfernen)
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ];
+  },
   async redirects() {
     return [
       // Alte Shopify-URLs auf die neuen Seiten
