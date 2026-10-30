@@ -18,6 +18,11 @@ export function mapShopifyUrl(url: string): string {
   if (/^\/blogs\/[^/]+\/.+/.test(path)) return path.replace(/^\/blogs\/[^/]+\//, "/blog/");
   if (PAGE_MAP[path]) return PAGE_MAP[path]!;
   // Rechtstexte, Kontakt & übrige Seiten bleiben vorerst im bestehenden Shopify-Shop
-  if (path.startsWith("/policies/") || path.startsWith("/pages/")) return LEGACY_ORIGIN + path;
+  if (
+    path.startsWith("/policies/") ||
+    path.startsWith("/pages/") ||
+    path.startsWith("/apps/") // z. B. Widerrufs-App
+  )
+    return LEGACY_ORIGIN + path;
   return path;
 }
