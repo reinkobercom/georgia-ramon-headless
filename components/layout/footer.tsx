@@ -1,58 +1,78 @@
-import Link from "next/link";
-
-import FooterMenu from "components/layout/footer-menu";
-import LogoSquare from "components/logo-square";
+import Logo from "components/logo-square";
 import { getMenu } from "lib/shopify";
-import { Suspense } from "react";
+import { mainNav, shopLinks } from "lib/navigation";
+import Link from "next/link";
+import { NewsletterForm } from "./newsletter-form";
 
-const { COMPANY_NAME, SITE_NAME } = process.env;
+const { COMPANY_NAME } = process.env;
 
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
-  const copyrightDate = currentYear;
-  const skeleton =
-    "w-full h-6 animate-pulse rounded-sm bg-neutral-200 dark:bg-neutral-700";
-  const menu = await getMenu("footer");
-  const copyrightName = COMPANY_NAME || SITE_NAME || "";
+  // Rechtliche Links kommen aus dem Shopify-Menü „footer“.
+  const legal = await getMenu("footer");
 
   return (
-    <footer className="text-sm text-neutral-500 dark:text-neutral-400">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 border-t border-neutral-200 px-6 py-12 text-sm md:flex-row md:gap-12 md:px-4 min-[1320px]:px-0 dark:border-neutral-700">
-        <div>
-          <Link
-            className="flex items-center gap-2 text-black md:pt-1 dark:text-white"
-            href="/"
-          >
-            <LogoSquare size="sm" />
-            <span className="uppercase">{SITE_NAME}</span>
-          </Link>
+    <footer className="bg-cocoa-950 text-cream-200">
+      <div className="border-b border-cocoa-700">
+        <div className="container-shop flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
+          <div className="max-w-md">
+            <p className="font-serif text-2xl text-cream-50">Schokolade im Postfach.</p>
+            <p className="mt-2 text-sm text-cream-300">
+              10 % auf deine erste Bestellung sichern und als Erste:r von neuen Sorten,
+              Limited Editions und exklusiven Aktionen erfahren.
+            </p>
+          </div>
+          <NewsletterForm />
         </div>
-        <Suspense
-          fallback={
-            <div className="flex h-[188px] w-[200px] flex-col gap-2">
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-              <div className={skeleton} />
-            </div>
-          }
-        >
-          <FooterMenu menu={menu} />
-        </Suspense>
       </div>
-      <div className="border-t border-neutral-200 py-6 text-sm dark:border-neutral-700">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-1 px-4 md:flex-row md:gap-0 md:px-4 min-[1320px]:px-0">
-          <p>
-            &copy; {copyrightDate} {copyrightName}
-            {copyrightName.length && !copyrightName.endsWith(".")
-              ? "."
-              : ""}{" "}
-            Alle Rechte vorbehalten.
+
+      <div className="container-shop grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
+        <div className="col-span-2 md:col-span-1">
+          <Link href="/" className="inline-block text-cream-50" aria-label="Startseite">
+            <Logo />
+          </Link>
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream-300">
+            Bean-to-Bar Schokolade aus Soest. Von der Kakaobohne bis zur Tafel – in
+            unserer eigenen Manufaktur.
           </p>
+        </div>
+        <FooterColumn title="Shop" items={shopLinks} />
+        <FooterColumn title="Entdecken" items={mainNav} />
+        <FooterColumn title="Service & Rechtliches" items={legal} />
+      </div>
+
+      <div className="border-t border-cocoa-700">
+        <div className="container-shop flex flex-col gap-2 py-6 text-xs text-cream-300 md:flex-row md:items-center md:justify-between">
+          <p>
+            &copy; {currentYear} {COMPANY_NAME || "Georgia Ramon"}. Alle Rechte vorbehalten.
+          </p>
+          <p>Alle Preise inkl. MwSt., zzgl. Versandkosten.</p>
         </div>
       </div>
     </footer>
+  );
+}
+
+function FooterColumn({
+  title,
+  items,
+}: {
+  title: string;
+  items: { title: string; path: string }[];
+}) {
+  if (!items.length) return null;
+  return (
+    <div>
+      <p className="eyebrow mb-4 text-gold-400">{title}</p>
+      <ul className="space-y-2.5 text-sm">
+        {items.map((item) => (
+          <li key={item.title}>
+            <Link href={item.path} className="transition-colors hover:text-gold-300">
+              {item.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

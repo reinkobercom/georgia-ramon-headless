@@ -1,30 +1,27 @@
 "use client";
 
 import { Dialog, Transition } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import Logo from "components/logo-square";
+import { mainNav, shopLinks, uspItems } from "lib/navigation";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Fragment, Suspense, useEffect, useState } from "react";
-
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Menu } from "lib/shopify/types";
 import Search, { SearchSkeleton } from "./search";
 
-export default function MobileMenu({ menu }: { menu: Menu[] }) {
+export default function MobileMenu() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
-  const openMobileMenu = () => setIsOpen(true);
-  const closeMobileMenu = () => setIsOpen(false);
+  const close = () => setIsOpen(false);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setIsOpen(false);
-      }
+      if (window.innerWidth >= 1024) setIsOpen(false);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [isOpen]);
+  }, []);
 
   useEffect(() => {
     setIsOpen(false);
@@ -33,68 +30,88 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
   return (
     <>
       <button
-        onClick={openMobileMenu}
+        onClick={() => setIsOpen(true)}
         aria-label="Menü öffnen"
-        className="flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors md:hidden dark:border-neutral-700 dark:text-white"
+        className="-ml-2 flex h-11 w-11 items-center justify-center text-cream-50"
       >
-        <Bars3Icon className="h-4" />
+        <Bars3Icon className="h-6 w-6" />
       </button>
       <Transition show={isOpen}>
-        <Dialog onClose={closeMobileMenu} className="relative z-50">
+        <Dialog onClose={close} className="relative z-50">
           <Transition.Child
             as={Fragment}
-            enter="transition-all ease-in-out duration-300"
-            enterFrom="opacity-0 backdrop-blur-none"
-            enterTo="opacity-100 backdrop-blur-[.5px]"
-            leave="transition-all ease-in-out duration-200"
-            leaveFrom="opacity-100 backdrop-blur-[.5px]"
-            leaveTo="opacity-0 backdrop-blur-none"
+            enter="transition-opacity duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+            <div className="fixed inset-0 bg-cocoa-950/60" aria-hidden="true" />
           </Transition.Child>
           <Transition.Child
             as={Fragment}
-            enter="transition-all ease-in-out duration-300"
-            enterFrom="translate-x-[-100%]"
+            enter="transition-transform ease-out duration-300"
+            enterFrom="-translate-x-full"
             enterTo="translate-x-0"
-            leave="transition-all ease-in-out duration-200"
+            leave="transition-transform ease-in duration-200"
             leaveFrom="translate-x-0"
-            leaveTo="translate-x-[-100%]"
+            leaveTo="-translate-x-full"
           >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 dark:bg-black">
-              <div className="p-4">
+            <Dialog.Panel className="fixed inset-y-0 left-0 flex w-full max-w-sm flex-col overflow-y-auto bg-cocoa-950 text-cream-50">
+              <div className="flex h-16 items-center justify-between border-b border-cocoa-700 px-4">
+                <Logo size="sm" />
                 <button
-                  className="mb-4 flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white"
-                  onClick={closeMobileMenu}
+                  className="flex h-11 w-11 items-center justify-center"
+                  onClick={close}
                   aria-label="Menü schließen"
                 >
-                  <XMarkIcon className="h-6" />
+                  <XMarkIcon className="h-6 w-6" />
                 </button>
-
-                <div className="mb-4 w-full">
-                  <Suspense fallback={<SearchSkeleton />}>
-                    <Search />
-                  </Suspense>
-                </div>
-                {menu.length ? (
-                  <ul className="flex w-full flex-col">
-                    {menu.map((item: Menu) => (
-                      <li
-                        className="py-2 text-xl text-black transition-colors hover:text-neutral-500 dark:text-white"
-                        key={item.title}
-                      >
-                        <Link
-                          href={item.path}
-                          prefetch={true}
-                          onClick={closeMobileMenu}
-                        >
-                          {item.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
               </div>
+
+              <div className="px-4 pt-5">
+                <Suspense fallback={<SearchSkeleton />}>
+                  <Search />
+                </Suspense>
+              </div>
+
+              <nav className="px-4 py-6">
+                <p className="eyebrow mb-3 text-gold-400">Shop</p>
+                <ul className="mb-6 grid grid-cols-2 gap-x-4">
+                  {shopLinks.map((item) => (
+                    <li key={item.path}>
+                      <Link href={item.path} onClick={close} className="block py-2 text-[15px] text-cream-100">
+                        {item.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <ul className="border-t border-cocoa-700">
+                  {mainNav.map((item) => (
+                    <li key={item.path} className="border-b border-cocoa-700">
+                      <Link
+                        href={item.path}
+                        onClick={close}
+                        className="block py-4 font-serif text-xl"
+                      >
+                        {item.title}
+                      </Link>
+                    </li>
+                  ))}
+                  <li className="border-b border-cocoa-700">
+                    <a href="https://georgia-ramon.com/account" className="block py-4 font-serif text-xl">
+                      Kundenkonto
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+
+              <ul className="mt-auto space-y-2 bg-cocoa-900 px-4 py-6 text-xs text-cream-200">
+                {uspItems.map((usp) => (
+                  <li key={usp}>✓ {usp}</li>
+                ))}
+              </ul>
             </Dialog.Panel>
           </Transition.Child>
         </Dialog>

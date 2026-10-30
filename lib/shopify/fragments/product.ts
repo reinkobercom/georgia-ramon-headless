@@ -7,6 +7,7 @@ const productFragment = /* GraphQL */ `
     handle
     availableForSale
     title
+    productType
     description
     descriptionHtml
     options {
@@ -37,6 +38,18 @@ const productFragment = /* GraphQL */ `
           price {
             amount
             currencyCode
+          }
+          compareAtPrice {
+            amount
+            currencyCode
+          }
+          unitPrice {
+            amount
+            currencyCode
+          }
+          unitPriceMeasurement {
+            referenceValue
+            referenceUnit
           }
         }
       }

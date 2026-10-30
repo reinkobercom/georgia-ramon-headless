@@ -1,24 +1,39 @@
 import clsx from "clsx";
 
-export default function LogoSquare({ size }: { size?: "sm" | undefined }) {
+// Wortmarke – ersetzt später durch das SVG-Logo von Georgia Ramon.
+export default function Logo({
+  className,
+  size = "md",
+}: {
+  className?: string;
+  size?: "sm" | "md";
+}) {
   return (
-    <div
+    <span
       className={clsx(
-        "flex flex-none items-center justify-center border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-black",
-        {
-          "h-[40px] w-[40px] rounded-xl": !size,
-          "h-[30px] w-[30px] rounded-lg": size === "sm",
-        },
+        "inline-flex flex-col items-center leading-none text-current",
+        className,
       )}
     >
       <span
-        className={clsx("font-semibold tracking-tight", {
-          "text-sm": !size,
-          "text-[10px]": size === "sm",
+        className={clsx("font-serif tracking-[0.06em] uppercase", {
+          "text-[19px] sm:text-[22px]": size === "md",
+          "text-lg": size === "sm",
         })}
       >
-        GR
+        Georgia
       </span>
-    </div>
+      <span
+        className={clsx("font-serif tracking-[0.06em] uppercase", {
+          "text-[19px] sm:text-[22px]": size === "md",
+          "text-lg": size === "sm",
+        })}
+      >
+        Ramon
+      </span>
+      <span className="mt-1 text-[8px] font-medium tracking-[0.3em] uppercase opacity-80">
+        Bean to Bar
+      </span>
+    </span>
   );
 }

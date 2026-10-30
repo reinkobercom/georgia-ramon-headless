@@ -1,4 +1,5 @@
 import productFragment from "../fragments/product";
+import imageFragment from "../fragments/image";
 import seoFragment from "../fragments/seo";
 
 const collectionFragment = /* GraphQL */ `
@@ -6,12 +7,16 @@ const collectionFragment = /* GraphQL */ `
     handle
     title
     description
+    image {
+      ...image
+    }
     seo {
       ...seo
     }
     updatedAt
   }
   ${seoFragment}
+  ${imageFragment}
 `;
 
 export const getCollectionQuery = /* GraphQL */ `

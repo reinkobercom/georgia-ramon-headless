@@ -365,10 +365,10 @@ export async function getCollections(): Promise<Collection[]> {
     return [
       {
         handle: "",
-        title: "All",
+        title: "Alle Sorten",
         description: "Alle Produkte",
         seo: {
-          title: "All",
+          title: "Alle Sorten",
           description: "Alle Produkte",
         },
         path: "/search",
@@ -384,10 +384,10 @@ export async function getCollections(): Promise<Collection[]> {
   const collections = [
     {
       handle: "",
-      title: "All",
+      title: "Alle Sorten",
       description: "Alle Produkte",
       seo: {
-        title: "All",
+        title: "Alle Sorten",
         description: "Alle Produkte",
       },
       path: "/search",

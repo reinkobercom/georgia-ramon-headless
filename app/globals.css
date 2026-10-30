@@ -3,19 +3,64 @@
 @plugin "@tailwindcss/container-queries";
 @plugin "@tailwindcss/typography";
 
+/* Dark-Varianten nur mit expliziter .dark-Klasse – der Shop hat ein festes, helles Farbschema. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+
+  /* Georgia Ramon Farbwelt */
+  --color-cocoa-950: #140e0b;
+  --color-cocoa-900: #1d1511;
+  --color-cocoa-800: #2a1f19;
+  --color-cocoa-700: #3d2e25;
+  --color-cocoa-500: #6f5a4b;
+  --color-cream-50: #fcf9f4;
+  --color-cream-100: #f7f1e8;
+  --color-cream-200: #efe5d6;
+  --color-cream-300: #e3d4bf;
+  --color-gold-300: #e2c47f;
+  --color-gold-400: #d4ad5c;
+  --color-gold-500: #c49a45;
+  --color-gold-600: #a67f32;
+  --color-leaf-600: #5b6b3a;
+}
+
 @layer base {
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-cream-300, currentColor);
+  }
+
+  html {
+    color-scheme: light;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-cream-50 font-sans text-cocoa-900 antialiased;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@layer components {
+  .eyebrow {
+    @apply text-xs font-semibold tracking-[0.18em] uppercase;
+  }
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-gold-500 px-6 py-3.5 text-xs font-semibold tracking-[0.14em] text-cocoa-950 uppercase transition-colors hover:bg-gold-400;
+  }
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-cocoa-900 px-6 py-3.5 text-xs font-semibold tracking-[0.14em] text-cream-50 uppercase transition-colors hover:bg-cocoa-700;
+  }
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm border border-cream-50/70 px-6 py-3.5 text-xs font-semibold tracking-[0.14em] text-cream-50 uppercase transition-colors hover:bg-cream-50 hover:text-cocoa-900;
+  }
+  .container-shop {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 }
 
@@ -28,5 +73,14 @@
 a,
 input,
 button {
-  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50 dark:focus-visible:ring-neutral-600 dark:focus-visible:ring-offset-neutral-900;
+  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-gold-500 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-50;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }

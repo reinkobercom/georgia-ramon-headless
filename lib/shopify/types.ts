@@ -88,6 +88,12 @@ export type ProductVariant = {
     value: string;
   }[];
   price: Money;
+  compareAtPrice?: Money | null;
+  unitPrice?: Money | null;
+  unitPriceMeasurement?: {
+    referenceValue: number;
+    referenceUnit: string;
+  } | null;
 };
 
 export type SEO = {
@@ -111,6 +117,7 @@ export type ShopifyCollection = {
   handle: string;
   title: string;
   description: string;
+  image?: Image | null;
   seo: SEO;
   updatedAt: string;
 };
@@ -120,6 +127,7 @@ export type ShopifyProduct = {
   handle: string;
   availableForSale: boolean;
   title: string;
+  productType: string;
   description: string;
   descriptionHtml: string;
   options: ProductOption[];
