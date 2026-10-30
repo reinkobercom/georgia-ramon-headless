@@ -2,6 +2,7 @@ import Logo from "components/logo-square";
 import { getMenu } from "lib/shopify";
 import { mainNav, shopLinks } from "lib/navigation";
 import Link from "next/link";
+import { Certificates } from "./certificates";
 import { NewsletterForm } from "./newsletter-form";
 
 const { COMPANY_NAME } = process.env;
@@ -13,6 +14,7 @@ export default async function Footer() {
 
   return (
     <footer className="bg-cocoa-950 text-cream-200">
+      <Certificates />
       <div className="border-b border-cocoa-700">
         <div className="container-shop flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
           <div className="max-w-md">
