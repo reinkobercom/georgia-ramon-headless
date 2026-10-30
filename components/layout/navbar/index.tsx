@@ -3,7 +3,7 @@ import clsx from "clsx";
 import CartModal from "components/cart/modal";
 import Logo from "components/logo-square";
 import { accountHref } from "lib/customer-account";
-import { buildMainNav, PROBIERBOX_ITEM } from "lib/navigation";
+import { buildHeaderNav, PROBIERBOX_ITEM } from "lib/navigation";
 import { getMenu } from "lib/shopify";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -11,7 +11,7 @@ import { UspBar } from "../usp-bar";
 import MobileMenu from "./mobile-menu";
 
 export async function Navbar() {
-  const nav = buildMainNav(await getMenu("main-menu").catch(() => []));
+  const nav = buildHeaderNav(await getMenu("main-menu").catch(() => []));
 
   return (
     <>

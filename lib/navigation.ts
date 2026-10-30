@@ -33,6 +33,13 @@ export function buildMainNav(menu: Menu[]): NavItem[] {
   return [...items.slice(0, at), PROBIERBOX_ITEM, ...items.slice(at)];
 }
 
+// Diese Punkte erscheinen nur im Footer, nicht im Header/Mobilmenü.
+const FOOTER_ONLY = ["/blog", "/haendler"];
+
+export function buildHeaderNav(menu: Menu[]): NavItem[] {
+  return buildMainNav(menu).filter((i) => !FOOTER_ONLY.includes(i.path));
+}
+
 export const uspItems = [
   "Bean-to-Bar in Soest hergestellt",
   "Bio & fair bezogener Kakao",
