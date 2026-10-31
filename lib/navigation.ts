@@ -32,6 +32,14 @@ export const GESCHENKBOXEN_ITEM: NavItem = {
   path: "/geschenkboxen",
 };
 
+/** Ist dieser Menüpunkt (oder einer seiner Unterpunkte) die aktuell geöffnete Seite? */
+export function isNavActive(pathname: string | null, item: NavItem): boolean {
+  if (!pathname) return false;
+  const matches = (path: string) =>
+    path !== "/" && (pathname === path || pathname.startsWith(path + "/"));
+  return matches(item.path) || !!item.items?.some((sub) => matches(sub.path));
+}
+
 /** Hauptmenü aufbereiten: „Home“ raus, Entdeckerbox als feste Hervorhebung nach „Shop“. */
 // Umbenennungen nur für den neuen Shop (das Shopify-Menü des Bestandsshops bleibt unverändert).
 const TITLE_OVERRIDES: Record<string, string> = { Shop: "Schokoladenwelt" };

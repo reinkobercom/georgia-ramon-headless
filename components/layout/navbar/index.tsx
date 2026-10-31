@@ -7,12 +7,13 @@ import clsx from "clsx";
 import CartModal from "components/cart/modal";
 import Logo from "components/logo-square";
 import { accountHref } from "lib/customer-account";
-import { buildHeaderNav, ENTDECKERBOX_ITEM } from "lib/navigation";
+import { buildHeaderNav } from "lib/navigation";
 import { getMenu } from "lib/shopify";
 import Link from "next/link";
 import { Suspense } from "react";
 import { PromoBar } from "../promo-bar";
 import MobileMenu from "./mobile-menu";
+import { NavLink } from "./nav-link";
 
 export async function Navbar() {
   const nav = buildHeaderNav(await getMenu("main-menu").catch(() => []));
@@ -41,13 +42,13 @@ export async function Navbar() {
             {nav.map((item) =>
               item.items?.length ? (
                 <li key={item.title} className="group relative">
-                  <Link
-                    href={item.path}
+                  <NavLink
+                    item={item}
                     className="flex items-center gap-1 py-6 transition-colors hover:text-gold-300"
                   >
                     {item.title}
                     <ChevronDownIcon className="h-3 w-3 transition-transform group-hover:rotate-180" />
-                  </Link>
+                  </NavLink>
                   <div className="invisible absolute top-full left-1/2 w-60 -translate-x-1/2 opacity-0 transition-all duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
                     <ul className="rounded-sm border border-cocoa-700 bg-cocoa-950 py-3 shadow-xl">
                       {item.items.map((sub) => (
@@ -65,15 +66,12 @@ export async function Navbar() {
                 </li>
               ) : (
                 <li key={item.title}>
-                  <Link
-                    href={item.path}
-                    className={clsx(
-                      "py-6 transition-colors hover:text-gold-300",
-                      item.path === ENTDECKERBOX_ITEM.path && "text-gold-400",
-                    )}
+                  <NavLink
+                    item={item}
+                    className="py-6 transition-colors hover:text-gold-300"
                   >
                     {item.title}
-                  </Link>
+                  </NavLink>
                 </li>
               ),
             )}

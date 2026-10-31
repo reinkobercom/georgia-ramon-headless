@@ -3,7 +3,8 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Logo from "components/logo-square";
-import { ENTDECKERBOX_ITEM, uspItems, type NavItem } from "lib/navigation";
+import { uspItems, type NavItem } from "lib/navigation";
+import { NavLink } from "./nav-link";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Fragment, Suspense, useEffect, useState } from "react";
@@ -87,13 +88,20 @@ export default function MobileMenu({
                   .filter((item) => item.items?.length)
                   .map((group) => (
                     <div key={group.title} className="mb-6">
-                      <p className="eyebrow mb-3 text-gold-400">{group.title}</p>
+                      <p className="eyebrow mb-3 text-gold-400">
+                        {group.title}
+                      </p>
                       <ul className="grid grid-cols-2 gap-x-4">
                         {group.items!.map((item) => (
                           <li key={item.title}>
-                            <Link href={item.path} onClick={close} className="block py-2 text-[15px] text-cream-100">
+                            <NavLink
+                              item={item}
+                              onClick={close}
+                              className="block py-2 text-[15px] text-cream-100"
+                              activeClassName="!text-gold-400"
+                            >
                               {item.title}
-                            </Link>
+                            </NavLink>
                           </li>
                         ))}
                       </ul>
@@ -103,21 +111,24 @@ export default function MobileMenu({
                   {nav
                     .filter((item) => !item.items?.length)
                     .map((item) => (
-                      <li key={item.title} className="border-b border-cocoa-700">
-                        <Link
-                          href={item.path}
+                      <li
+                        key={item.title}
+                        className="border-b border-cocoa-700"
+                      >
+                        <NavLink
+                          item={item}
                           onClick={close}
-                          className={
-                            "block py-4 font-serif text-xl" +
-                            (item.path === ENTDECKERBOX_ITEM.path ? " text-gold-400" : "")
-                          }
+                          className="block py-4 font-serif text-xl"
                         >
                           {item.title}
-                        </Link>
+                        </NavLink>
                       </li>
                     ))}
                   <li className="border-b border-cocoa-700">
-                    <a href={accountHref} className="block py-4 font-serif text-xl">
+                    <a
+                      href={accountHref}
+                      className="block py-4 font-serif text-xl"
+                    >
                       Kundenkonto
                     </a>
                   </li>
