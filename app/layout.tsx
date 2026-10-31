@@ -1,5 +1,7 @@
 import { CartProvider } from "components/cart/cart-context";
 import { ConsentManager } from "components/consent/consent";
+import { BeanJourney } from "components/layout/bean-journey";
+import { BeanJourneySlot } from "components/layout/bean-journey-slot";
 import Footer from "components/layout/footer";
 import { Navbar } from "components/layout/navbar";
 import { getCart } from "lib/shopify";
@@ -53,12 +55,18 @@ export default async function RootLayout({
             {children}
             <Toaster closeButton position="bottom-center" />
           </main>
+          <BeanJourneySlot>
+            <BeanJourney />
+          </BeanJourneySlot>
           <Footer />
         </CartProvider>
         <ConsentManager />
         {/* Vercel Web Analytics (cookiefrei) – aktiv, sobald im Vercel-Projekt eingeschaltet */}
         {process.env.NEXT_PUBLIC_VERCEL_ANALYTICS === "true" ? (
-          <Script src="/_vercel/insights/script.js" strategy="afterInteractive" />
+          <Script
+            src="/_vercel/insights/script.js"
+            strategy="afterInteractive"
+          />
         ) : null}
       </body>
     </html>
