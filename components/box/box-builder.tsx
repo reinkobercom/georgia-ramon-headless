@@ -159,6 +159,25 @@ export function BoxBuilder({
             })}
           </div>
 
+          {(() => {
+            const bigger = BOX_OPTIONS.find((o) => o.size > box.size);
+            if (!bigger) return null;
+            return (
+              <button
+                type="button"
+                onClick={() => setBox(bigger)}
+                className="mt-3 flex w-full items-center justify-between gap-3 rounded-sm bg-cream-200 px-4 py-3 text-left text-sm text-cocoa-700 transition-colors hover:bg-cream-300"
+              >
+                <span>
+                  <strong className="text-cocoa-900">Tipp:</strong> Nur {bigger.size - box.size} Tafeln
+                  mehr – mit der {bigger.label} sparst du <strong className="text-gold-600">{bigger.discount} %</strong>{" "}
+                  statt {box.discount} %.
+                </span>
+                <span className="shrink-0 text-xs font-semibold text-gold-600">Wechseln →</span>
+              </button>
+            );
+          })()}
+
           {/* Schritt 2: Sorten wählen */}
           <div className="mt-10 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-3">
             <h2 className="font-serif text-2xl">2. Wähle deine Schokoladen</h2>
