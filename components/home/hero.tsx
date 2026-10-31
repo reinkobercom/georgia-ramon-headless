@@ -11,9 +11,9 @@ const flavors = [
 function AwardSeal({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`flex h-[132px] w-[132px] shrink-0 items-center justify-center rounded-full border border-gold-600 bg-cocoa-950/90 backdrop-blur-sm md:h-[148px] md:w-[148px] ${className}`}
+      className={`flex h-[132px] w-[132px] shrink-0 items-center justify-center rounded-full border border-gold-600 bg-cocoa-950/90 backdrop-blur-sm md:h-[160px] md:w-[160px] ${className}`}
     >
-      <div className="flex h-[118px] w-[118px] flex-col items-center justify-center gap-1.5 rounded-full border border-gold-500/45 px-3 text-center md:h-[134px] md:w-[134px]">
+      <div className="flex h-[118px] w-[118px] flex-col items-center justify-center gap-1.5 rounded-full border border-gold-500/45 px-5 text-center md:h-[146px] md:w-[146px]">
         <svg
           aria-hidden
           viewBox="0 0 24 24"
@@ -21,10 +21,10 @@ function AwardSeal({ className = "" }: { className?: string }) {
         >
           <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z" />
         </svg>
-        <span className="text-[9px] font-bold tracking-[0.2em] text-cream-50 uppercase md:text-[10px]">
+        <span className="text-[8px] font-bold tracking-[0.14em] text-cream-50 uppercase md:text-[9px]">
           Ausgezeichnet
         </span>
-        <span className="font-serif text-[11px] leading-snug text-gold-300 md:text-[12px]">
+        <span className="font-serif text-[10px] leading-snug text-gold-300 md:text-[11px]">
           Academy of Chocolate
           <br />& International
           <br />
@@ -49,7 +49,7 @@ export function Hero() {
       {/* Leichte Verläufe: Bild bleibt sichtbar, Text bleibt lesbar */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(0deg,#140e0b_8%,rgba(20,14,11,0.7)_60%,rgba(20,14,11,0.45)_100%)] md:bg-[linear-gradient(90deg,rgba(20,14,11,0.78)_0%,rgba(20,14,11,0.5)_38%,rgba(20,14,11,0.12)_70%,rgba(20,14,11,0)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(0deg,#140e0b_8%,rgba(20,14,11,0.7)_60%,rgba(20,14,11,0.45)_100%)] md:bg-[linear-gradient(90deg,rgba(20,14,11,0.9)_0%,rgba(20,14,11,0.78)_35%,rgba(20,14,11,0.45)_62%,rgba(20,14,11,0.25)_100%)]"
       />
       <div
         aria-hidden
@@ -113,7 +113,7 @@ export function Hero() {
           <AwardSeal className="mt-2 md:hidden" />
         </div>
 
-        <AwardSeal className="absolute right-4 bottom-12 hidden sm:right-6 md:flex lg:right-8" />
+        <AwardSeal className="absolute top-10 right-4 hidden sm:right-6 md:flex lg:right-8" />
       </div>
     </section>
   );
