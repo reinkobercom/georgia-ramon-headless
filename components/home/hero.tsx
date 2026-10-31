@@ -1,80 +1,116 @@
-import { BeanIcon, LeafIcon, HandshakeIcon, PinIcon } from "components/icons/brand";
 import { brandImages } from "lib/brand-images";
 import Image from "next/image";
 import Link from "next/link";
 
-const values = [
-  { label: "Bio", Icon: LeafIcon },
-  { label: "Fair", Icon: HandshakeIcon },
-  { label: "Bean-to-Bar", Icon: BeanIcon },
-  { label: "Made in Soest", Icon: PinIcon },
+const flavors = [
+  { label: "Himbeere & Rosenöl", href: "/product/himbeere-rose" },
+  { label: "Sanddorn & Joghurt", href: "/product/sanddorn-joghurt" },
+  { label: "Rote Bete & Kokos", href: "/product/rote-bete-kokosnuss-vegan" },
 ];
 
-export function Hero() {
+function AwardSeal({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`flex h-[132px] w-[132px] shrink-0 items-center justify-center rounded-full border border-gold-600 bg-cocoa-950/90 backdrop-blur-sm md:h-[172px] md:w-[172px] ${className}`}
+    >
+      <div className="flex h-[118px] w-[118px] flex-col items-center justify-center gap-1.5 rounded-full border border-gold-500/45 px-3 text-center md:h-[156px] md:w-[156px]">
+        <svg
+          aria-hidden
+          viewBox="0 0 24 24"
+          className="h-3.5 w-3.5 fill-gold-500"
+        >
+          <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7.1L12 17.3 5.8 21l1.6-7.1L2 9.2l7.1-.6z" />
+        </svg>
+        <span className="text-[9px] font-bold tracking-[0.2em] text-cream-50 uppercase md:text-[10px]">
+          Ausgezeichnet
+        </span>
+        <span className="font-serif text-[11px] leading-snug text-gold-300 md:text-[13px]">
+          Academy of Chocolate
+          <br />& International
+          <br />
+          Chocolate Awards
+        </span>
+      </div>
+    </div>
+  );
+}
 
+export function Hero() {
   return (
     <section className="relative overflow-hidden bg-cocoa-950 text-cream-50">
       <Image
         src={brandImages.hero}
-        alt="Schokolade von Georgia Ramon"
+        alt="Tafel von Georgia Ramon mit eingeprägtem Logo"
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        className="object-cover object-center opacity-60 md:opacity-100"
+      />
+      {/* Leichte Verläufe: Bild bleibt sichtbar, Text bleibt lesbar */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[linear-gradient(0deg,#140e0b_8%,rgba(20,14,11,0.7)_60%,rgba(20,14,11,0.45)_100%)] md:bg-[linear-gradient(90deg,rgba(20,14,11,0.78)_0%,rgba(20,14,11,0.5)_38%,rgba(20,14,11,0.12)_70%,rgba(20,14,11,0)_100%)]"
       />
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-r from-cocoa-950/95 via-cocoa-950/75 to-cocoa-950/20"
+        className="absolute inset-0 hidden bg-[linear-gradient(0deg,rgba(20,14,11,0.7)_0%,rgba(20,14,11,0)_25%),linear-gradient(180deg,rgba(20,14,11,0.5)_0%,rgba(20,14,11,0)_18%)] md:block"
       />
-      <div className="container-shop relative grid min-h-[560px] items-center gap-10 py-14 md:min-h-[620px] md:py-20 lg:grid-cols-2 lg:py-24">
-        <div className="max-w-xl">
-          <h1 className="font-serif text-[2.4rem] leading-[1.08] sm:text-5xl lg:text-[3.6rem]">
-            Außergewöhnliche
-            <br />
-            Schokolade.
-            <span className="mt-2 block text-gold-400">Bean-to-Bar aus Soest.</span>
-          </h1>
 
-          <ul className="mt-8 grid max-w-md grid-cols-4 gap-3">
-            {values.map(({ label, Icon }) => (
-              <li key={label} className="flex flex-col items-start gap-2">
-                <Icon className="h-8 w-8 text-cream-100" />
-                <span className="text-[10px] font-semibold tracking-[0.12em] uppercase sm:text-[11px]">
-                  {label}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <p className="mt-8 max-w-md text-[15px] leading-relaxed text-cream-200">
-            Unser Anspruch: die beste Schokolade herzustellen. Deshalb verarbeiten wir ganze
-            Kakaobohnen selbst – handverlesen, hell geröstet, von der Bohne bis zur Tafel.
+      <div className="container-shop relative flex min-h-[620px] flex-col justify-center py-14 md:min-h-[760px] md:py-20">
+        <div className="flex max-w-[780px] flex-col gap-7 md:gap-8">
+          <p className="eyebrow flex items-center gap-3.5 text-gold-400">
+            <span aria-hidden className="h-px w-9 bg-gold-500" />
+            Handgemacht in Soest
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/search" className="btn-gold">
-              Schokolade entdecken
+          <h1 className="font-serif text-[clamp(2.6rem,6vw,5.75rem)] leading-[1.02] font-medium tracking-[-0.015em] text-balance [text-shadow:0_2px_24px_rgba(20,14,11,0.55)]">
+            Vergiss alles, was du bisher{" "}
+            <em className="text-gold-500">Schokolade</em> genannt hast.
+          </h1>
+
+          <p className="max-w-[520px] text-[17px] leading-relaxed text-cream-200 [text-shadow:0_1px_12px_rgba(20,14,11,0.7)] md:text-lg">
+            Wir machen sie selbst, aus der ganzen Kakaobohne. Dein Gaumen merkt
+            den Unterschied beim ersten Stück.
+          </p>
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link href="/entdeckerbox" className="btn-gold min-h-14 px-8">
+              Reise starten: Entdeckerbox
+              <svg
+                aria-hidden
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </Link>
-            <Link href="/ueber-uns" className="btn-outline-light">
-              Unsere Story
+            <Link href="/search" className="btn-outline-light min-h-14 px-7">
+              Alle Sorten
             </Link>
           </div>
+
+          <div className="flex flex-wrap items-center gap-2.5 text-[13px]">
+            <span className="mr-1 text-cream-300">Probier zum Beispiel:</span>
+            {flavors.map((f) => (
+              <Link
+                key={f.href}
+                href={f.href}
+                className="rounded-full border border-cocoa-700 bg-cocoa-900/70 px-3.5 py-2 text-cream-50 transition-colors hover:border-gold-500 hover:text-gold-300"
+              >
+                {f.label}
+              </Link>
+            ))}
+          </div>
+
+          <AwardSeal className="mt-2 md:hidden" />
         </div>
 
-        <div className="hidden justify-end self-end lg:flex">
-          <div className="flex h-36 w-36 flex-col items-center justify-center rounded-full border border-gold-500/80 bg-cocoa-950/85 text-center backdrop-blur-sm">
-            <span className="text-gold-400">★</span>
-            <span className="px-4 text-[9px] leading-snug font-semibold tracking-[0.14em] uppercase">
-              Ausgezeichnet
-              <br />
-              <span className="text-gold-400">Academy of Chocolate</span>
-              <br />& International
-              <br />
-              Chocolate Awards
-            </span>
-            <span className="text-gold-400">★</span>
-          </div>
-        </div>
+        <AwardSeal className="absolute right-4 bottom-16 hidden sm:right-6 md:flex lg:right-8" />
       </div>
     </section>
   );

@@ -1,4 +1,8 @@
-import { ChevronDownIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronDownIcon,
+  MagnifyingGlassIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import CartModal from "components/cart/modal";
 import Logo from "components/logo-square";
@@ -7,6 +11,7 @@ import { buildHeaderNav, ENTDECKERBOX_ITEM } from "lib/navigation";
 import { getMenu } from "lib/shopify";
 import Link from "next/link";
 import { Suspense } from "react";
+import { PromoBar } from "../promo-bar";
 import { UspBar } from "../usp-bar";
 import MobileMenu from "./mobile-menu";
 
@@ -15,6 +20,7 @@ export async function Navbar() {
 
   return (
     <>
+      <PromoBar />
       <header className="sticky top-0 z-40 bg-cocoa-950 text-cream-50">
         <nav className="container-shop flex h-16 items-center justify-between gap-4 md:h-20">
           <div className="flex w-20 items-center lg:hidden">
@@ -23,7 +29,12 @@ export async function Navbar() {
             </Suspense>
           </div>
 
-          <Link href="/" prefetch={true} aria-label="Georgia Ramon – Startseite" className="shrink-0">
+          <Link
+            href="/"
+            prefetch={true}
+            aria-label="Georgia Ramon – Startseite"
+            className="shrink-0"
+          >
             <Logo />
           </Link>
 
@@ -31,7 +42,10 @@ export async function Navbar() {
             {nav.map((item) =>
               item.items?.length ? (
                 <li key={item.title} className="group relative">
-                  <Link href={item.path} className="flex items-center gap-1 py-6 transition-colors hover:text-gold-300">
+                  <Link
+                    href={item.path}
+                    className="flex items-center gap-1 py-6 transition-colors hover:text-gold-300"
+                  >
                     {item.title}
                     <ChevronDownIcon className="h-3 w-3 transition-transform group-hover:rotate-180" />
                   </Link>

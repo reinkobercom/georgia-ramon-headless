@@ -22,7 +22,10 @@ export const fallbackNav: NavItem[] = [
   { title: "Händler & Partner", path: "/haendler" },
 ];
 
-export const ENTDECKERBOX_ITEM: NavItem = { title: "Entdeckerbox", path: "/entdeckerbox" };
+export const ENTDECKERBOX_ITEM: NavItem = {
+  title: "Entdeckerbox",
+  path: "/entdeckerbox",
+};
 
 /** Hauptmenü aufbereiten: „Home“ raus, Entdeckerbox als feste Hervorhebung nach „Shop“. */
 // Umbenennungen nur für den neuen Shop (das Shopify-Menü des Bestandsshops bleibt unverändert).
@@ -31,7 +34,9 @@ const TITLE_OVERRIDES: Record<string, string> = { Shop: "Schokoladenwelt" };
 export function buildMainNav(menu: Menu[]): NavItem[] {
   const items = (menu.length ? menu : fallbackNav)
     .filter((i) => i.path !== "/")
-    .map((i) => (TITLE_OVERRIDES[i.title] ? { ...i, title: TITLE_OVERRIDES[i.title]! } : i));
+    .map((i) =>
+      TITLE_OVERRIDES[i.title] ? { ...i, title: TITLE_OVERRIDES[i.title]! } : i,
+    );
   if (items.some((i) => i.path === ENTDECKERBOX_ITEM.path)) return items;
   const shopIndex = items.findIndex((i) => i.items?.length);
   const at = shopIndex >= 0 ? shopIndex + 1 : 0;
@@ -46,7 +51,7 @@ export function buildHeaderNav(menu: Menu[]): NavItem[] {
 }
 
 export const uspItems = [
-  "Bean-to-Bar in Soest hergestellt",
+  "Handgemacht in Soest",
   "Bio & fair bezogener Kakao",
   "Kostenloser Versand ab 39 €",
   "Versand nur unter 24 °C",
