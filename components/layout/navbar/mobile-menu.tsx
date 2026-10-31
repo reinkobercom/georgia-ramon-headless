@@ -3,7 +3,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Logo from "components/logo-square";
-import { PROBIERBOX_ITEM, uspItems, type NavItem } from "lib/navigation";
+import { ENTDECKERBOX_ITEM, uspItems, type NavItem } from "lib/navigation";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Fragment, Suspense, useEffect, useState } from "react";
@@ -109,7 +109,7 @@ export default function MobileMenu({
                           onClick={close}
                           className={
                             "block py-4 font-serif text-xl" +
-                            (item.path === PROBIERBOX_ITEM.path ? " text-gold-400" : "")
+                            (item.path === ENTDECKERBOX_ITEM.path ? " text-gold-400" : "")
                           }
                         >
                           {item.title}

@@ -5,11 +5,11 @@ import { getBoxCatalog } from "lib/catalog";
 import { isVegan } from "lib/format";
 
 export const metadata = {
-  title: "Probierbox zusammenstellen",
+  title: "Entdeckerbox zusammenstellen",
   description: `${BOX_SIZES_TEXT} Tafeln Bean-to-Bar Schokolade nach Wahl – bis zu ${MAX_BOX_DISCOUNT} % sparen.`,
 };
 
-export default async function ProbierboxPage() {
+export default async function EntdeckerboxPage() {
   const { bars, filters } = await getBoxCatalog();
 
   const products: BoxProduct[] = bars.map((p) => ({
@@ -26,9 +26,9 @@ export default async function ProbierboxPage() {
   return (
     <div className="pb-28 lg:pb-0">
       <section className="container-shop pt-8 pb-6 text-center md:pt-12">
-        <p className="eyebrow text-gold-600">Probierbox</p>
+        <p className="eyebrow text-gold-600">Entdeckerbox</p>
         <h1 className="mt-2 font-serif text-3xl leading-tight sm:text-4xl lg:text-5xl">
-          Stell dir deine Schokoladenbox zusammen
+          Stell dir deine Entdeckerbox zusammen
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-[15px] text-cocoa-700">
           Wähle {BOX_SIZES_TEXT} Lieblingssorten und spare bis zu {MAX_BOX_DISCOUNT} % im

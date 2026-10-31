@@ -158,8 +158,8 @@ export default function AboutPage() {
           <Link href="/search/schokolade-veredelt" className="btn-dark">
             Kreationen entdecken
           </Link>
-          <Link href="/probierbox" className="inline-flex items-center justify-center rounded-sm border border-cocoa-900 px-6 py-3.5 text-xs font-semibold tracking-[0.14em] uppercase hover:bg-cocoa-900 hover:text-cream-50">
-            Probierbox zusammenstellen
+          <Link href="/entdeckerbox" className="inline-flex items-center justify-center rounded-sm border border-cocoa-900 px-6 py-3.5 text-xs font-semibold tracking-[0.14em] uppercase hover:bg-cocoa-900 hover:text-cream-50">
+            Entdeckerbox zusammenstellen
           </Link>
         </div>
       </section>
@@ -242,11 +242,11 @@ export default function AboutPage() {
       <section className="container-shop py-16 text-center md:py-20">
         <h2 className="font-serif text-3xl sm:text-4xl">Schmeck den Unterschied.</h2>
         <p className="mx-auto mt-3 max-w-lg text-[15px] text-cocoa-700">
-          Am besten probierst du dich durch – mit 6 oder 10 Sorten deiner Wahl in der Probierbox.
+          Am besten probierst du dich durch – mit 6 oder 10 Sorten deiner Wahl in der Entdeckerbox.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <Link href="/probierbox" className="btn-gold">
-            Probierbox zusammenstellen
+          <Link href="/entdeckerbox" className="btn-gold">
+            Entdeckerbox zusammenstellen
           </Link>
           <Link href="/search" className="btn-dark">
             Alle Sorten ansehen

@@ -106,7 +106,7 @@ export async function createCartAndSetCookie() {
   (await cookies()).set("cartId", cart.id!);
 }
 
-/** Probierbox: Tafeln einzeln (mit Box-Kennzeichnung) in den Warenkorb + Rabattcode setzen. */
+/** Entdeckerbox: Tafeln einzeln (mit Box-Kennzeichnung) in den Warenkorb + Rabattcode setzen. */
 export async function addBoxToCart(payload: {
   boxLabel: string;
   code: string;
@@ -123,7 +123,7 @@ export async function addBoxToCart(payload: {
     const cart = await addToCart(
       payload.lines.map((l) => ({
         ...l,
-        attributes: [{ key: "Probierbox", value: payload.boxLabel }],
+        attributes: [{ key: "Entdeckerbox", value: payload.boxLabel }],
       })),
       cartId,
     );

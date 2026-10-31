@@ -1,7 +1,7 @@
 import { getCollection, getCollectionProducts, getProducts } from "lib/shopify";
 import type { Image, Product } from "lib/shopify/types";
 
-// Kollektionen, die keine einzelnen Tafeln enthalten (für Probierbox ausgeschlossen).
+// Kollektionen, die keine einzelnen Tafeln enthalten (für Entdeckerbox ausgeschlossen).
 const NON_BAR_COLLECTIONS = ["alles-ausser-tafeln", "bundles"];
 
 export async function getBestsellers(limit = 6): Promise<Product[]> {
@@ -32,7 +32,7 @@ const BOX_FILTERS: { key: string; label: string; collections: string[] }[] = [
   { key: "vegan", label: "Vegan", collections: ["vegan", "vegane-schokolade"] },
 ];
 
-/** Alle einzelnen Tafeln für die Probierbox plus Filter-Zuordnung. */
+/** Alle einzelnen Tafeln für die Entdeckerbox plus Filter-Zuordnung. */
 export async function getBoxCatalog() {
   const [products, nonBars] = await Promise.all([
     getProducts({ sortKey: "BEST_SELLING" }),

@@ -1,4 +1,4 @@
-// Probierbox – Konditionen zentral. Der Rabatt wird in Shopify über Rabattcodes umgesetzt:
+// Entdeckerbox – Konditionen zentral. Der Rabatt wird in Shopify über Rabattcodes umgesetzt:
 // BOX6 = 10 % ab 6 Artikeln, BOX10 = 15 % ab 10 Artikeln (in Shopify unter Rabatte anlegen).
 export type BoxOption = {
   size: number;

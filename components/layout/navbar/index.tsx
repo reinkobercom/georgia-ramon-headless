@@ -3,7 +3,7 @@ import clsx from "clsx";
 import CartModal from "components/cart/modal";
 import Logo from "components/logo-square";
 import { accountHref } from "lib/customer-account";
-import { buildHeaderNav, PROBIERBOX_ITEM } from "lib/navigation";
+import { buildHeaderNav, ENTDECKERBOX_ITEM } from "lib/navigation";
 import { getMenu } from "lib/shopify";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -56,7 +56,7 @@ export async function Navbar() {
                     href={item.path}
                     className={clsx(
                       "py-6 transition-colors hover:text-gold-300",
-                      item.path === PROBIERBOX_ITEM.path && "text-gold-400",
+                      item.path === ENTDECKERBOX_ITEM.path && "text-gold-400",
                     )}
                   >
                     {item.title}

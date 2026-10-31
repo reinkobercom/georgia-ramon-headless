@@ -12,6 +12,7 @@ export default {
     return [
       // Alte Shopify-URLs auf die neuen Seiten
       { source: "/pages/uber-uns", destination: "/ueber-uns", permanent: true },
+      { source: "/probierbox", destination: "/entdeckerbox", permanent: true },
       { source: "/uber-uns", destination: "/ueber-uns", permanent: true },
       { source: "/products/:handle", destination: "/product/:handle", permanent: true },
       { source: "/collections/all", destination: "/search", permanent: true },

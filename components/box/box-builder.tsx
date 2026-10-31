@@ -81,7 +81,7 @@ export function BoxBuilder({
     if (!complete || pending) return;
     startTransition(async () => {
       const res = await addBoxToCart({
-        boxLabel: box.label,
+        boxLabel: `${box.size}er Entdeckerbox`,
         code: box.code,
         lines: selectedItems.map(({ product, qty }) => ({
           merchandiseId: product.variantId,
@@ -89,7 +89,7 @@ export function BoxBuilder({
         })),
       });
       if (res.ok) {
-        toast.success(`Deine ${box.label} liegt im Warenkorb – ${box.discount} % Box-Rabatt inklusive.`);
+        toast.success(`Deine ${box.size}er Entdeckerbox liegt im Warenkorb – ${box.discount} % Box-Rabatt inklusive.`);
         setSelection({});
         setSheetOpen(false);
       } else {

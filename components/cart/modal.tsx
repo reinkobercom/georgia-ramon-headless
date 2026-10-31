@@ -156,10 +156,10 @@ export default function CartModal() {
                                     <span className="leading-tight">
                                       {item.merchandise.product.title}
                                     </span>
-                                    {item.attributes?.find((a) => a.key === "Probierbox") ? (
+                                    {item.attributes?.find((a) => a.key === "Entdeckerbox" || a.key === "Probierbox") ? (
                                       <p className="text-xs font-semibold text-gold-600">
                                         Teil deiner{" "}
-                                        {item.attributes.find((a) => a.key === "Probierbox")!.value}
+                                        {item.attributes.find((a) => a.key === "Entdeckerbox" || a.key === "Probierbox")!.value}
                                       </p>
                                     ) : null}
                                     {item.merchandise.title !==

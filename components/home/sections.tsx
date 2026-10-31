@@ -122,7 +122,7 @@ export function BoxTeaser({ products }: { products: Product[] }) {
           </div>
           <p className="eyebrow text-gold-600">Neu hier?</p>
           <h2 className="mt-2 max-w-sm font-serif text-3xl leading-tight sm:text-4xl">
-            Stell dir deine Probierbox zusammen
+            Stell dir deine Entdeckerbox zusammen
           </h2>
           <p className="mt-4 max-w-md text-[15px] leading-relaxed text-cocoa-700">
             {BOX_SIZES_TEXT} Tafeln ganz nach deiner Wahl – entdecke unsere Sorten, finde deinen
@@ -137,7 +137,7 @@ export function BoxTeaser({ products }: { products: Product[] }) {
             <p className="font-serif text-2xl">
               Bis zu <span className="text-gold-600">−{MAX_BOX_DISCOUNT} %</span>
             </p>
-            <Link href="/probierbox" className="btn-dark sm:ml-auto">
+            <Link href="/entdeckerbox" className="btn-dark sm:ml-auto">
               Box zusammenstellen
             </Link>
           </div>
@@ -340,10 +340,10 @@ export function BoxStrip() {
             Lieber probieren? {BOX_SIZES_TEXT} Sorten nach Wahl
           </p>
           <p className="mt-1 text-sm text-cream-300">
-            Stell dir deine Probierbox zusammen und spare bis zu {MAX_BOX_DISCOUNT} %.
+            Stell dir deine Entdeckerbox zusammen und spare bis zu {MAX_BOX_DISCOUNT} %.
           </p>
         </div>
-        <Link href="/probierbox" className="btn-gold sm:ml-auto">
+        <Link href="/entdeckerbox" className="btn-gold sm:ml-auto">
           Box zusammenstellen
         </Link>
       </div>
