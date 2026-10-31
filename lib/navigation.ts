@@ -52,7 +52,7 @@ export function buildHeaderNav(menu: Menu[]): NavItem[] {
 
 export const uspItems = [
   "Handgemacht in Soest",
-  "Bio & fair bezogener Kakao",
+  "Bio-zertifiziert",
   "Kostenloser Versand ab 39 €",
-  "Versand nur unter 24 °C",
+  "Fair gehandelter Kakao",
 ];

@@ -12,7 +12,6 @@ import { getMenu } from "lib/shopify";
 import Link from "next/link";
 import { Suspense } from "react";
 import { PromoBar } from "../promo-bar";
-import { UspBar } from "../usp-bar";
 import MobileMenu from "./mobile-menu";
 
 export async function Navbar() {
@@ -99,7 +98,6 @@ export async function Navbar() {
           </div>
         </nav>
       </header>
-      <UspBar />
     </>
   );
 }

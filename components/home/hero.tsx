@@ -56,7 +56,7 @@ export function Hero() {
         className="absolute inset-0 hidden bg-[linear-gradient(0deg,rgba(20,14,11,0.7)_0%,rgba(20,14,11,0)_25%),linear-gradient(180deg,rgba(20,14,11,0.5)_0%,rgba(20,14,11,0)_18%)] md:block"
       />
 
-      <div className="container-shop relative flex min-h-[560px] flex-col justify-center py-12 md:h-[calc(100svh-156px)] md:max-h-[680px] md:min-h-[520px] md:py-12">
+      <div className="container-shop relative flex min-h-[560px] flex-col justify-center py-12 md:h-[calc(100svh-116px)] md:max-h-[680px] md:min-h-[520px] md:py-12">
         <div className="flex max-w-[720px] flex-col gap-6">
           <p className="eyebrow flex items-center gap-3.5 text-gold-400">
             <span aria-hidden className="h-px w-9 bg-gold-500" />

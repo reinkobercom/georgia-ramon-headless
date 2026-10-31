@@ -32,14 +32,14 @@ export function TrustBar() {
     },
     {
       Icon: LeafIcon,
-      title: "Temperaturgeschützt",
-      text: "Versand nur unter 24 °C",
+      title: "Bio-zertifiziert",
+      text: "kontrollierte Bio-Qualität",
     },
     { Icon: LockIcon, title: "Sichere Bezahlung", text: "SSL-verschlüsselt" },
     {
       Icon: HeartIcon,
       title: "Handwerkliche Herstellung",
-      text: "in kleinen Chargen, bio & fair",
+      text: "in kleinen Chargen, fair gehandelt",
     },
   ];
   return (
