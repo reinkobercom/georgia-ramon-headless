@@ -27,6 +27,11 @@ export const ENTDECKERBOX_ITEM: NavItem = {
   path: "/entdeckerbox",
 };
 
+export const GESCHENKBOXEN_ITEM: NavItem = {
+  title: "Geschenkboxen",
+  path: "/geschenkboxen",
+};
+
 /** Hauptmenü aufbereiten: „Home“ raus, Entdeckerbox als feste Hervorhebung nach „Shop“. */
 // Umbenennungen nur für den neuen Shop (das Shopify-Menü des Bestandsshops bleibt unverändert).
 const TITLE_OVERRIDES: Record<string, string> = { Shop: "Schokoladenwelt" };
@@ -37,10 +42,13 @@ export function buildMainNav(menu: Menu[]): NavItem[] {
     .map((i) =>
       TITLE_OVERRIDES[i.title] ? { ...i, title: TITLE_OVERRIDES[i.title]! } : i,
     );
-  if (items.some((i) => i.path === ENTDECKERBOX_ITEM.path)) return items;
+  const extras = [ENTDECKERBOX_ITEM, GESCHENKBOXEN_ITEM].filter(
+    (x) => !items.some((i) => i.path === x.path),
+  );
+  if (!extras.length) return items;
   const shopIndex = items.findIndex((i) => i.items?.length);
   const at = shopIndex >= 0 ? shopIndex + 1 : 0;
-  return [...items.slice(0, at), ENTDECKERBOX_ITEM, ...items.slice(at)];
+  return [...items.slice(0, at), ...extras, ...items.slice(at)];
 }
 
 // Diese Punkte erscheinen nur im Footer, nicht im Header/Mobilmenü.

@@ -8,7 +8,6 @@ import { Certificates } from "./certificates";
 import { NewsletterForm } from "./newsletter-form";
 import { SocialIcons } from "./social-icons";
 
-
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
   // Rechtliche Links kommen aus dem Shopify-Menü „footer“.
@@ -26,10 +25,12 @@ export default async function Footer() {
       <div className="border-b border-cocoa-700">
         <div className="container-shop flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
           <div className="max-w-md">
-            <p className="font-serif text-2xl text-cream-50">Schokolade im Postfach.</p>
+            <p className="font-serif text-2xl text-cream-50">
+              Schokolade im Postfach.
+            </p>
             <p className="mt-2 text-sm text-cream-300">
-              10 % auf deine erste Bestellung sichern und als Erste:r von neuen Sorten,
-              Limited Editions und exklusiven Aktionen erfahren.
+              10 % auf deine erste Bestellung sichern und als Erste:r von neuen
+              Sorten, Limited Editions und exklusiven Aktionen erfahren.
             </p>
           </div>
           <NewsletterForm />
@@ -38,25 +39,52 @@ export default async function Footer() {
 
       <div className="container-shop grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
         <div className="col-span-2 md:col-span-1">
-          <Link href="/" className="inline-block text-cream-50" aria-label="Startseite">
+          <Link
+            href="/"
+            className="inline-block text-cream-50"
+            aria-label="Startseite"
+          >
             <Logo size="lg" />
           </Link>
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream-300">
-            Bean-to-Bar Schokolade aus Soest. Von der Kakaobohne bis zur Tafel – in
-            unserer eigenen Manufaktur.
+            Bean-to-Bar Schokolade aus Soest. Von der Kakaobohne bis zur Tafel –
+            in unserer eigenen Manufaktur.
           </p>
           <SocialIcons className="mt-6" />
         </div>
-        <FooterColumn title={shopGroup?.title ?? "Shop"} items={shopGroup?.items ?? []} />
+        <FooterColumn
+          title={shopGroup?.title ?? "Shop"}
+          items={shopGroup?.items ?? []}
+        />
         <FooterColumn title="Entdecken" items={discover} />
         <FooterColumn title="Service & Rechtliches" items={legal} />
+      </div>
+
+      <div className="border-t border-cocoa-700">
+        <div className="container-shop flex flex-col gap-3 py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-cream-300">
+            <strong className="font-semibold text-cream-50">
+              Firmengeschenke &amp; größere Mengen?
+            </strong>{" "}
+            Gern auf Anfrage.
+          </p>
+          <Link
+            href="/haendler"
+            className="inline-flex min-h-11 items-center gap-2 font-semibold text-gold-300 hover:text-gold-400"
+          >
+            Anfrage stellen <span aria-hidden>→</span>
+          </Link>
+        </div>
       </div>
 
       <div className="border-t border-cocoa-700">
         <div className="container-shop flex flex-col gap-2 py-6 text-xs text-cream-300 md:flex-row md:items-center md:justify-between">
           <p>
             &copy; {currentYear} Georgia Ramon – mit{" "}
-            <HeartIcon aria-label="Herz" className="inline h-3.5 w-3.5 -translate-y-px fill-gold-500 text-gold-500" />{" "}
+            <HeartIcon
+              aria-label="Herz"
+              className="inline h-3.5 w-3.5 -translate-y-px fill-gold-500 text-gold-500"
+            />{" "}
             gemacht in Soest
           </p>
           <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -83,7 +111,10 @@ function FooterColumn({
       <ul className="space-y-2.5 text-sm">
         {items.map((item) => (
           <li key={item.title}>
-            <Link href={item.path} className="transition-colors hover:text-gold-300">
+            <Link
+              href={item.path}
+              className="transition-colors hover:text-gold-300"
+            >
               {item.title}
             </Link>
           </li>
