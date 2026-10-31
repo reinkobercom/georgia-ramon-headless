@@ -39,7 +39,7 @@ export default async function Footer() {
       <div className="container-shop grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
         <div className="col-span-2 md:col-span-1">
           <Link href="/" className="inline-block text-cream-50" aria-label="Startseite">
-            <Logo />
+            <Logo size="lg" />
           </Link>
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream-300">
             Bean-to-Bar Schokolade aus Soest. Von der Kakaobohne bis zur Tafel – in
