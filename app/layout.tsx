@@ -1,7 +1,6 @@
 import { CartProvider } from "components/cart/cart-context";
 import { ConsentManager } from "components/consent/consent";
 import { BeanJourney } from "components/layout/bean-journey";
-import { BeanJourneySlot } from "components/layout/bean-journey-slot";
 import Footer from "components/layout/footer";
 import { Navbar } from "components/layout/navbar";
 import { getCart } from "lib/shopify";
@@ -55,9 +54,7 @@ export default async function RootLayout({
             {children}
             <Toaster closeButton position="bottom-center" />
           </main>
-          <BeanJourneySlot>
-            <BeanJourney />
-          </BeanJourneySlot>
+          <BeanJourney />
           <Footer />
         </CartProvider>
         <ConsentManager />

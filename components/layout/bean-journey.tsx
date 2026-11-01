@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { brandImages } from "lib/brand-images";
 import Image from "next/image";
 
-// „Die Reise unserer Kakaobohne“ – steht auf allen Unterseiten direkt über dem Footer.
+// „Die Reise unserer Kakaobohne“ – steht auf allen Seiten inkl. Startseite direkt über dem Footer.
 // Fotos sind vorerst Platzhalter aus der Shopify-Mediathek.
 const steps = [
   {
